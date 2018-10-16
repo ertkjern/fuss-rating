@@ -1,0 +1,32 @@
+@import "../../../../styles/variables";
+
+.header{
+  height: 100px;
+  .logo{
+    float: left;
+    padding-top: 15px;
+    @media screen and (max-width: $md-screen) {
+     width: 80px;
+    }
+  }
+  h2{
+    text-align: right;
+    padding-top: 25px;
+    @media screen and (max-width: $md-screen) {
+      padding-top: 15px;
+      font-size: 24px;
+    }
+  }
+  a{
+    float: right;
+    color: $corp-blue;
+    margin-left: 35px;
+    padding-top: 2px;
+    &:visited{
+      color: $corp-blue;
+    }
+    &:hover{
+      color: $plum;
+    }
+  }
+}

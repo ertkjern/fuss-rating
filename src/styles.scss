@@ -1,1 +1,9 @@
-/* You can add global styles to this file, and also import other style files */
+@import "./styles/variables";
+
+body{
+  font-family: 'Lato', sans-serif;
+  color: $corp-blue;
+}
+
+html, body { height: 100%; }
+

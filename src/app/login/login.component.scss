@@ -1,0 +1,36 @@
+@import "../../styles/mixins";
+
+.login{
+  height: 100vh;
+  background-image: linear-gradient(white, white,  $plum-transparent);
+  margin-top: 10vh;
+  .container{
+    text-align: center;
+  }
+  label, input{
+    display: block;
+  }
+
+  label{
+    text-align: left;
+    margin-top: 35px;
+  }
+
+  input{
+    @include no-button-styling();
+    @include standard-input();
+    width: 100%;
+  }
+
+  button{
+    @include no-button-styling();
+    @include standard-button($plum, $plum-transparent, white);
+    width: 100%;
+    margin-top: 35px;
+  }
+
+  .error{
+    height: 15px;
+    color: red;
+  }
+}

@@ -1,6 +1,6 @@
 <section class="matchmaker">
   <div class="container">
-    <h2>New Match</h2>
+    <h2 *ngIf="!selectedGame">New Match</h2>
 
     <div *ngIf="!selectedGame" class="row">
       <div class="col-md-6">

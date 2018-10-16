@@ -4,8 +4,13 @@
   <div class="container">
     <div class="row">
       <div class="offset-lg-4 col-sm-12 col-lg-4">
-        <h2>Login</h2>
-        <form (ngSubmit)="login(loginForm.value)" [formGroup]="loginForm" novalidate>
+        <h2>
+          <span *ngIf="!showNewUser">Login</span>
+          <span *ngIf="showNewUser">Register new user</span>
+
+        </h2>
+        <!-- LOGIN -->
+        <form *ngIf="!showNewUser" (ngSubmit)="login(loginForm.value)" [formGroup]="loginForm" novalidate>
           <label for="email">Email</label>
           <input id="email" type="text" autocomplete="username" formControlName="email">
           <div class="error"><span *ngIf="email.invalid && (email.dirty || email.touched)" translate>Invalid email</span></div>
@@ -13,10 +18,46 @@
 
           <label for="password">Password</label>
           <input id="password" type="password" autocomplete="current-password" formControlName="password">
+          <div class="error"><span *ngIf="password.invalid && (password.dirty || password.touched)" translate>Password required</span></div>
+
           <button type="submit">Log in</button>
 
           <span *ngIf="loginError" class="error">Username or password is wrong</span>
         </form>
+
+        <!--- New User -->
+        <form *ngIf="showNewUser" (ngSubmit)="register(registerUser.value)" [formGroup]="registerUser" novalidate>
+          <label for="registerEmail">Email</label>
+          <input id="registerEmail" type="text" autocomplete="username" formControlName="email">
+          <div class="error"><span *ngIf="registerEmail.invalid && (registerEmail.dirty || registerEmail.touched)" translate>Invalid email</span></div>
+
+
+          <label for="registerPassword">Password</label>
+          <input id="registerPassword" type="password" autocomplete="current-password" formControlName="password">
+          <div class="error"><span *ngIf="registerPassword.invalid && (registerPassword.dirty || registerPassword.touched)" translate>Password required</span></div>
+
+          <label for="registerUsername">Username</label>
+          <input id="registerUsername" type="text" autocomplete="username" formControlName="username">
+          <div class="error"><span *ngIf="registerUsername.invalid && (registerUsername.dirty || registerUsername.touched)" translate>Username required</span></div>
+
+          <label for="registerName">Name</label>
+          <input id="registerName" type="text" formControlName="name">
+          <div class="error"><span *ngIf="registerName.invalid && (registerName.dirty || registerName.touched)" translate>Name required</span></div>
+
+
+          <button type="submit">Register</button>
+
+          <span *ngIf="loginError" class="error">Noen av feltene er ikke rett ufylt</span>
+        </form>
+
+
+        <a class="new-user" (click)="toggleNewUser()" href="javascript:void(0)">
+          <span *ngIf="!showNewUser">Create a new user</span>
+          <span *ngIf="showNewUser">Tilbake</span>
+        </a>
+
+        <a class="new-user" [routerLink]="['forgotPassword']" href="javascript:void(0)">Forgot password</a>
+
       </div>
     </div>
   </div>

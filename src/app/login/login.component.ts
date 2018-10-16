@@ -4,6 +4,7 @@ import {ValidationService} from '../shared/services/validation.service';
 import {LoginModel} from '../shared/models/login.model';
 import {AuthenticationService} from '../shared/services/authentication.service';
 import {Router} from '@angular/router';
+import {UserModel} from '../shared/models/user.model';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,9 @@ import {Router} from '@angular/router';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
+  registerUser: FormGroup;
   loginError: boolean;
+  showNewUser: boolean;
 
   constructor(private fb: FormBuilder, private  validationService: ValidationService, private auth: AuthenticationService,
               private router: Router) {
@@ -28,6 +31,13 @@ export class LoginComponent implements OnInit {
       email: ['', Validators.compose([Validators.required, this.validationService.emailValidator])],
       password: ['', Validators.required],
     });
+
+    this.registerUser = this.fb.group({
+      email: ['', Validators.compose([Validators.required, this.validationService.emailValidator])],
+      password: ['', Validators.required],
+      username: ['', Validators.required],
+      name: ['', Validators.required]
+    });
   }
 
   login(loginForm: LoginModel) {
@@ -41,7 +51,46 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  get email() { return this.loginForm.get('email'); }
+  register(user: any) {
+    this.auth.register(user.email, user.password, user.username, user.name).then(() => {
+      console.log('success');
+      this.router.navigate(['home']);
+    }, error => {
+      console.log(error);
+      this.loginError = true;
+    });
+  }
 
-  get password() { return this.loginForm.get('password'); }
+  toggleNewUser() {
+    this.loginError = false;
+    this.showNewUser = !this.showNewUser;
+  }
+
+  get email() {
+    return this.loginForm.get('email');
+  }
+
+  get password() {
+    return this.loginForm.get('password');
+  }
+
+  get registerEmail() {
+    return this.registerUser.get('email');
+  }
+
+  get registerPassword() {
+    return this.registerUser.get('password');
+  }
+
+  get registerUsername() {
+    return this.registerUser.get('username');
+  }
+
+  get registerName() {
+    return this.registerUser.get('name');
+  }
+
+
+
+
 }

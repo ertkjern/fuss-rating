@@ -55,9 +55,9 @@
   font-size: 18px;
 }
 
-@mixin standard-button($color, $hover-color, $text-color){
-  background-color: $color;
-  border: 1px solid $color;
+@mixin standard-button($background-color, $hover-color, $text-color){
+  background-color: $background-color;
+  border: 1px solid $background-color;
   border-radius: 5px;
   font-size: 18px;
   height: 45px;
@@ -65,7 +65,7 @@
   @include standard-transition();
   &:hover{
     @include standard-transition();
-    background-color: $plum-transparent;
-    border: 1px solid $plum-transparent;
+    background-color: $hover-color;
+    border: 1px solid $hover-color;
   }
 }

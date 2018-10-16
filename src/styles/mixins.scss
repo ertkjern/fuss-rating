@@ -1,0 +1,71 @@
+@import "./variables";
+
+@mixin no-button-styling{
+  border: none;
+  background: none;
+  box-shadow: none;
+}
+
+@mixin rotate($deg){
+  -webkit-transform: rotate($deg);
+  -moz-transform: rotate($deg);
+  -o-transform: rotate($deg);
+  -ms-transform: rotate($deg);
+  transform: rotate($deg);
+}
+
+@mixin medium-transition() {
+  -o-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+@mixin standard-transition() {
+  -o-transition: all 0.218s;
+  -moz-transition: all 0.218s;
+  -webkit-transition: all 0.218s;
+  transition: all 0.218s;
+}
+
+@mixin slow-transition() {
+  -o-transition: all 1s;
+  -moz-transition: all 1s;
+  -webkit-transition: all 1s;
+  transition: all 1s;
+}
+
+
+@mixin btn-shadow{
+  -moz-box-shadow:  0 8px 20px rgba(190, 190, 190, 0.8);
+  -webkit-box-shadow:  0 8px 20px rgba(190, 190, 190, 0.8);
+  box-shadow:  0 8px 20px rgba(190, 190, 190, 0.8);
+}
+
+@mixin hover-effect{
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+
+
+@mixin standard-input{
+  border-bottom: 2px solid $plum;
+  padding: 5px;
+  font-size: 18px;
+}
+
+@mixin standard-button($color, $hover-color, $text-color){
+  background-color: $color;
+  border: 1px solid $color;
+  border-radius: 5px;
+  font-size: 18px;
+  height: 45px;
+  color: $text-color;
+  @include standard-transition();
+  &:hover{
+    @include standard-transition();
+    background-color: $plum-transparent;
+    border: 1px solid $plum-transparent;
+  }
+}

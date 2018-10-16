@@ -12,7 +12,7 @@ import {UserModel} from '../shared/models/user.model';
   templateUrl: 'login.component.html'
 })
 export class LoginComponent implements OnInit {
-
+  isLoading: boolean;
   loginForm: FormGroup;
   registerUser: FormGroup;
   loginError: boolean;
@@ -23,7 +23,14 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isLoading = true;
     this.setupForm();
+    this.auth.isLoggedIn().subscribe(result => {
+      if (result) {
+        this.isLoading = false;
+        this.router.navigate(['home']);
+      }
+    });
   }
 
   private setupForm() {
@@ -89,8 +96,6 @@ export class LoginComponent implements OnInit {
   get registerName() {
     return this.registerUser.get('name');
   }
-
-
 
 
 }

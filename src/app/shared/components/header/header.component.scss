@@ -16,6 +16,10 @@
       padding-top: 15px;
       font-size: 24px;
     }
+    @media screen and (max-width: $small-screen) {
+      padding-top: 15px;
+      font-size: 20px;
+    }
   }
   a{
     float: right;
@@ -27,6 +31,9 @@
     }
     &:hover{
       color: $plum;
+    }
+    @media screen and (max-width: $small-screen) {
+      margin-left: 15px;
     }
   }
 }

@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
   registerUser: FormGroup;
   loginError: boolean;
   showNewUser: boolean;
+  isRegistering: boolean;
 
   constructor(private fb: FormBuilder, private  validationService: ValidationService, private auth: AuthenticationService,
               private router: Router) {
@@ -29,6 +30,8 @@ export class LoginComponent implements OnInit {
       if (result) {
         this.isLoading = false;
         this.router.navigate(['home']);
+      } else {
+        this.isLoading = false;
       }
     });
   }
@@ -48,24 +51,32 @@ export class LoginComponent implements OnInit {
   }
 
   login(loginForm: LoginModel) {
-    this.loginError = false;
-    this.auth.login(loginForm.email, loginForm.password).then(result => {
-      if (result) {
-        this.router.navigate(['home']);
-      } else {
-        this.loginError = true;
-      }
-    });
+    if (this.loginForm.valid) {
+      this.isRegistering = true;
+      this.loginError = false;
+      this.auth.login(loginForm.email, loginForm.password).then(result => {
+        if (result) {
+          this.isRegistering = false;
+          this.router.navigate(['home']);
+        } else {
+          this.isRegistering = false;
+          this.loginError = true;
+        }
+      });
+    }
   }
 
   register(user: any) {
-    this.auth.register(user.email, user.password, user.username, user.name).then(() => {
-      console.log('success');
-      this.router.navigate(['home']);
-    }, error => {
-      console.log(error);
-      this.loginError = true;
-    });
+    if (this.registerUser.valid) {
+      this.isRegistering = true;
+      this.auth.register(user.email, user.password, user.username, user.name).then(() => {
+        this.isRegistering = false;
+        this.router.navigate(['home']);
+      }, () => {
+        this.isRegistering = false;
+        this.loginError = true;
+      });
+    }
   }
 
   toggleNewUser() {

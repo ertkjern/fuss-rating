@@ -20,8 +20,10 @@
           <input id="password" type="password" autocomplete="current-password" formControlName="password">
           <div class="error"><span *ngIf="password.invalid && (password.dirty || password.touched)" translate>Password required</span></div>
 
-          <button type="submit">Log in</button>
-
+          <button type="submit">
+            <span *ngIf="isRegistering"><i class="fa fa-2x fa-cog fa-spin"></i></span>
+            <span *ngIf="!isRegistering">Login</span>
+          </button>
           <span *ngIf="loginError" class="error">Username or password is wrong</span>
         </form>
 
@@ -37,7 +39,7 @@
           <div class="error"><span *ngIf="registerPassword.invalid && (registerPassword.dirty || registerPassword.touched)" translate>Password required</span></div>
 
           <label for="registerUsername">Username</label>
-          <input id="registerUsername" type="text" autocomplete="username" formControlName="username">
+          <input id="registerUsername" maxlength="15" type="text" autocomplete="username" formControlName="username">
           <div class="error"><span *ngIf="registerUsername.invalid && (registerUsername.dirty || registerUsername.touched)" translate>Username required</span></div>
 
           <label for="registerName">Name</label>
@@ -45,7 +47,10 @@
           <div class="error"><span *ngIf="registerName.invalid && (registerName.dirty || registerName.touched)" translate>Name required</span></div>
 
 
-          <button type="submit">Register</button>
+          <button type="submit">
+            <span *ngIf="isRegistering"><i class="fa fa-2x fa-cog fa-spin"></i></span>
+              <span *ngIf="!isRegistering">Register</span>
+          </button>
 
           <span *ngIf="loginError" class="error">Noen av feltene er ikke rett ufylt</span>
         </form>
@@ -56,7 +61,7 @@
           <span *ngIf="showNewUser">Tilbake</span>
         </a>
 
-        <a class="new-user" [routerLink]="['forgotPassword']" href="javascript:void(0)">Forgot password</a>
+        <a class="new-user" [routerLink]="['/forgotPassword']" href="javascript:void(0)">Forgot password</a>
 
       </div>
     </div>

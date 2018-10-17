@@ -57,7 +57,7 @@ export class AuthenticationService {
   }
 
   storeUserData(user: any) {
-    this.afs.collection<UserModel>('users').add(user);
+    this.afs.collection<UserModel>('users').doc(user.uid).set(user);
   }
 
   logout() {

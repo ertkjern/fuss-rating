@@ -33,3 +33,4 @@ export class ForgotPasswordComponent implements OnInit {
   get email() {
     return this.forgotPasswordForm.get('email');
   }
+}

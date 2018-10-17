@@ -1,0 +1,33 @@
+<div class="games">
+  <h2 *ngIf="matches?.length !== 0">Ongoing matches</h2>
+  <div class="games-content">
+    <div class="container">
+      <div class="row game" *ngFor="let match of matches">
+
+        <div class="col-5">
+          {{match?.player1.username}} ({{match?.player1?.rating}})
+        </div>
+        <div class="col-2">
+          VS
+        </div>
+        <div class="col-5">
+          {{match?.player2.username}} ({{match?.player2?.rating}})
+        </div>
+
+        <div class="col-5 margin-top-35">
+          <button class="winner">{{match?.player1?.username}} won!</button>
+        </div>
+        <div class="col-2 date margin-top-35">
+          {{match?.created | date: 'short'}}
+        </div>
+        <div class="col-5 margin-top-35">
+          <button class="winner">{{match?.player2?.username}} won!</button>
+        </div>
+      </div>
+      <div *ngIf="matches?.length === 0" class="row no-matches">
+          <h4 class="col-12">No upcoming matches</h4>
+      </div>
+    </div>
+  </div>
+
+</div>

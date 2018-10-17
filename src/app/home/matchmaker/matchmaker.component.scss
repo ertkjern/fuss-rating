@@ -16,4 +16,10 @@
     @include standard-button($tangarine, $tangarine-transparent, white);
     width: 85%;
   }
+
+  .button-disabled{
+    @include no-button-styling();
+    @include standard-button(gray, gray, white);
+    width: 85%;
+  }
 }

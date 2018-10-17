@@ -1,16 +1,31 @@
-<section>
-  <div class="container">
+<section class="game-setup">
+  <div *ngIf="!matchCreated" class="container">
     <h2>Game setup</h2>
 
     <div class="row">
       <div class="col-5">
-        <label>Player 1</label>
+        <label class="select-label" for="player1">Player 1</label>
+        <select disabled class="select-box" id="player1">
+          <option [selected]="true" [value]="player1?.uid">{{player1?.username}}</option>
+        </select>
       </div>
-      <div class="col-2">VS</div>
+      <div class="col-2"><span class="vs">VS</span></div>
       <div class="col-5">
-        <label>Player 2</label>
+        <label class="select-label" for="player2">Player 2</label>
+        <select class="select-box" id="player2" [(ngModel)]="player2Id">
+          <option *ngFor="let user of users" [value]="user.uid">{{user.username}}</option>
+        </select>
       </div>
     </div>
+    <div class="row">
+      <div class="col-12">
+        <button (click)="createMatch()" class="create-game">CREATE GAME</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="matchCreated" class="container">
+    <h2>GO GO GO!</h2>
   </div>
 
 </section>

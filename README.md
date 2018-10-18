@@ -1,5 +1,15 @@
 # FussRating
 
+A super simple fuss rating system based on the ELO-rating.
+Add a player you want to play against, when the match is done, register the winner and the ELO calculation will be performed.
+A leader board will show the best (and worst) players in the system.
+
+# Note
+
+You can easily create matches and register fake ratings. 
+This is a gentleman system. Use it with care and don't ruin the fun.  
+ 
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.0-beta.2.
 
 ## Development server

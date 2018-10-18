@@ -20,9 +20,9 @@ export class MatchmakerService {
         created: new Date().getTime()
       };
       this.afs.collection<MatchModel>('matches').add(match).then( () => {
-        this.setIsPlaying(player1).then(() => {
-          this.setIsPlaying(player2).then(() => {
-            resolve(true;
+        this.setIsPlaying(player1, true).then(() => {
+          this.setIsPlaying(player2, true).then(() => {
+            resolve(true);
           });
         });
       }, () => {
@@ -31,8 +31,8 @@ export class MatchmakerService {
     });
   }
 
-  setIsPlaying(player: UserModel): Promise<void> {
-    player.isPlaying = true;
+  setIsPlaying(player: UserModel, isPlaying: boolean): Promise<void> {
+    player.isPlaying = isPlaying;
     return this.afs.collection<UserModel>('users').doc(player.uid).update(player);
   }
 
@@ -49,8 +49,16 @@ export class MatchmakerService {
     );
   }
 
-  deleteMatch(matchId: string): Promise<any> {
-    return this.afs.collection<MatchModel>('matches').doc(matchId).delete();
+  deleteMatch(match: MatchModel): Promise<boolean> {
+    return new Promise(resolve =>  {
+      this.setIsPlaying(match.player1, false).then(() => {
+        this.setIsPlaying(match.player2, false).then(() => {
+          this.afs.collection<MatchModel>('matches').doc(match.id).delete().then(() => {
+            resolve(true);
+          });
+        });
+      });
+    });
   }
 
   registerWinner(player1Won: boolean, match: MatchModel): Promise<boolean> {
@@ -76,8 +84,14 @@ export class MatchmakerService {
     return this.afs.collection<UserModel>('users').doc(player.uid).update(player);
   }
 
-  private updateMatch(match: MatchModel): Promise<void>{
-    return this.afs.collection<MatchModel>('matches').doc(match.id).delete();
+  private updateMatch(match: MatchModel): Promise<boolean> {
+    return new Promise<boolean>(resolve => {
+      this.afs.collection<MatchModel>('history').add(match).then(() => {
+        this.afs.collection<MatchModel>('matches').doc(match.id).delete();
+        resolve(true);
+      });
+    });
+
   }
 
   private calculateELORating(player1Won: boolean, match: MatchModel): MatchModel {

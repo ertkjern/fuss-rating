@@ -2,31 +2,37 @@
   <h2 *ngIf="matches?.length !== 0">Ongoing matches</h2>
   <div class="games-content">
     <div class="container">
-      <div class="row game" *ngFor="let match of matches">
+      <div class="game" *ngFor="let match of matches">
+        <div class="row" *ngIf="loadingMatchId !== match.id">
+          <div class="col-5">
+            {{match?.player1.username}} ({{match?.player1?.rating}})
+          </div>
+          <div class="col-2">
+            VS
+          </div>
+          <div class="col-5">
+            {{match?.player2.username}} ({{match?.player2?.rating}})
+          </div>
 
-        <div class="col-5">
-          {{match?.player1.username}} ({{match?.player1?.rating}})
+          <div class="col-5 margin-top-35">
+            <button *ngIf="match?.player1?.uid == myId || match?.player2.uid === myId" (click)="registerWinner(true, match)" class="winner">{{match?.player1?.username}} won!</button>
+          </div>
+          <div [ngClass]="{'margin-top-35': match?.player1?.uid == myId || match?.player2.uid === myId}"class="col-2 date">
+            <p>{{match?.created | date: 'HH:mm:ss'}}</p>
+            <a *ngIf="match?.player1?.uid == myId || match?.player2.uid === myId" href="javascript:void(0)" (click)="deleteMatch(match)">Slett</a>
+          </div>
+          <div class="col-5 margin-top-35">
+            <button *ngIf="match?.player1?.uid == myId || match?.player2.uid === myId"  (click)="registerWinner(false, match)" class="winner">{{match?.player2?.username}} won!</button>
+          </div>
         </div>
-        <div class="col-2">
-          VS
-        </div>
-        <div class="col-5">
-          {{match?.player2.username}} ({{match?.player2?.rating}})
-        </div>
-
-        <div class="col-5 margin-top-35">
-          <button (click)="registerWinner(true, match)" class="winner">{{match?.player1?.username}} won!</button>
-        </div>
-        <div class="col-2 date margin-top-35">
-          <p>{{match?.created | date: 'hh:mm:ss'}}</p>
-          <a  href="javascript:void(0)" (click)="deleteMatch(match)">Slett</a>
-        </div>
-        <div class="col-5 margin-top-35">
-          <button (click)="registerWinner(false, match)" class="winner">{{match?.player2?.username}} won!</button>
+        <div *ngIf="loadingMatchId === match.id">
+          <div class="col-12">
+            <i class="fa fa-cog fa-2x fa-spin"></i>
+          </div>
         </div>
       </div>
       <div *ngIf="matches?.length === 0" class="row no-matches">
-          <h4 class="col-12">No upcoming matches</h4>
+        <h4 class="col-12">No upcoming matches</h4>
       </div>
     </div>
   </div>

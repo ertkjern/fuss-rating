@@ -37,6 +37,10 @@ export class GameSettingsComponent implements OnInit {
     });
   }
 
+  newMatch(){
+    this.matchCreated = false;
+  }
+
   createMatch() {
     if (this.player1 && this.player2Id) {
       const oponent = this.users.filter(u => u.uid === this.player2Id)[0];

@@ -1,5 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {AppConstants} from '../../shared/constants/constant.variable';
+import {UserModel} from '../../shared/models/user.model';
+import {MatchModel} from '../../shared/models/match.model';
+import {Observable} from 'rxjs';
+import {AngularFirestore} from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-matchmaker',
@@ -11,7 +15,7 @@ export class MatchmakerComponent implements OnInit {
   selectedGame: string
   gameTypes: any;
 
-  constructor() {
+  constructor(private afs: AngularFirestore) {
   }
 
   ngOnInit() {

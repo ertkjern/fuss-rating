@@ -25,7 +25,13 @@
 
       .winner{
         @include no-button-styling();
+        min-height: 60px;
+        height: auto;
         @include standard-button($aqua, $aqua, white)
+      }
+
+      .delete{
+        margin-top: 15px;
       }
     }
 

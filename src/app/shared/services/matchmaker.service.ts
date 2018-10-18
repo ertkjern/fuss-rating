@@ -101,8 +101,8 @@ export class MatchmakerService {
       winnerRating = match.player1.rating;
       looserRating = match.player2.rating;
     } else {
-      winnerRating = match.player1.rating;
-      looserRating = match.player2.rating;
+      winnerRating = match.player2.rating;
+      looserRating = match.player1.rating;
     }
     if (winnerRating > 0 && looserRating > 0) {
       const rw = Math.pow(10, (winnerRating / 400));

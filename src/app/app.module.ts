@@ -11,6 +11,7 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
 import {HomeModule} from './home/home.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
+import {MAT_DATE_LOCALE} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,9 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
     LoginModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [
+    {provide: MAT_DATE_LOCALE, useValue: 'nb'},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

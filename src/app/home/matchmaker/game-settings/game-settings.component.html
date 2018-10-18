@@ -1,5 +1,5 @@
 <section class="game-setup">
-  <div *ngIf="!matchCreated" class="container">
+  <div *ngIf="!matchCreated && !player1?.isPlaying" class="container">
     <h2>Game setup</h2>
 
     <div class="row">
@@ -22,6 +22,10 @@
         <button (click)="createMatch()" class="create-game">CREATE GAME</button>
       </div>
     </div>
+  </div>
+
+  <div *ngIf="player1?.isPlaying && !matchCreated" class="container">
+    <h2>Already in a game.</h2>
   </div>
 
   <div *ngIf="matchCreated" class="container">

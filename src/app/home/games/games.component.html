@@ -15,13 +15,14 @@
         </div>
 
         <div class="col-5 margin-top-35">
-          <button class="winner">{{match?.player1?.username}} won!</button>
+          <button (click)="registerWinner(true, match)" class="winner">{{match?.player1?.username}} won!</button>
         </div>
         <div class="col-2 date margin-top-35">
-          {{match?.created | date: 'short'}}
+          <p>{{match?.created | date: 'hh:mm:ss'}}</p>
+          <a  href="javascript:void(0)" (click)="deleteMatch(match)">Slett</a>
         </div>
         <div class="col-5 margin-top-35">
-          <button class="winner">{{match?.player2?.username}} won!</button>
+          <button (click)="registerWinner(false, match)" class="winner">{{match?.player2?.username}} won!</button>
         </div>
       </div>
       <div *ngIf="matches?.length === 0" class="row no-matches">

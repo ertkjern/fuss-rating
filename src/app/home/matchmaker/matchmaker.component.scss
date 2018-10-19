@@ -5,6 +5,10 @@
   margin-top: 35px;
   text-align: center;
 
+  h2{
+    margin-bottom: 35px;
+  }
+
   label{
     margin-top: 35px;
     display: block;
@@ -14,12 +18,12 @@
   .matchmaker-button{
     @include no-button-styling();
     @include standard-button($tangarine, $tangarine-transparent, white);
-    width: 85%;
+    width: 50%;
   }
 
   .button-disabled{
     @include no-button-styling();
     @include standard-button(gray, gray, white);
-    width: 85%;
+    width: 50%;
   }
 }

@@ -3,14 +3,8 @@
     <h2 *ngIf="!selectedGame">New Match</h2>
 
     <div *ngIf="!selectedGame" class="row">
-      <div class="col-md-6">
-        <label>Premade teams</label>
+      <div class="col-md-12">
         <button (click)="createGame(gameTypes?.premade)" type="button" class="matchmaker-button">1v1</button>
-      </div>
-
-      <div class="col-md-6">
-        <label>Matchmaker</label>
-        <button disabled type="button" class="button-disabled">Kommer snart</button>
       </div>
     </div>
   </div>

@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   isLoading: boolean;
   loginForm: FormGroup;
   registerUser: FormGroup;
-  loginError: boolean;
+  errorMessage: string;
   showNewUser: boolean;
   isRegistering: boolean;
 
@@ -53,14 +53,14 @@ export class LoginComponent implements OnInit {
   login(loginForm: LoginModel) {
     if (this.loginForm.valid) {
       this.isRegistering = true;
-      this.loginError = false;
+      this.errorMessage = null;
       this.auth.login(loginForm.email, loginForm.password).then(result => {
-        if (result) {
+        if (result && !result.error) {
           this.isRegistering = false;
           this.router.navigate(['home']);
         } else {
           this.isRegistering = false;
-          this.loginError = true;
+          this.errorMessage = result.data.message;
         }
       });
     }
@@ -69,18 +69,20 @@ export class LoginComponent implements OnInit {
   register(user: any) {
     if (this.registerUser.valid) {
       this.isRegistering = true;
-      this.auth.register(user.email, user.password, user.username, user.name).then(() => {
-        this.isRegistering = false;
-        this.router.navigate(['home']);
-      }, () => {
-        this.isRegistering = false;
-        this.loginError = true;
+      this.auth.register(user.email, user.password, user.username, user.name).then(result => {
+        if (result && !result.error) {
+          this.isRegistering = false;
+          this.router.navigate(['home']);
+        } else {
+          this.errorMessage = result.data.message;
+          this.isRegistering = false;
+        }
       });
     }
   }
 
   toggleNewUser() {
-    this.loginError = false;
+    this.errorMessage = null;
     this.showNewUser = !this.showNewUser;
   }
 

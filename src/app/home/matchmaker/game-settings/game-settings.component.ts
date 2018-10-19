@@ -30,6 +30,7 @@ export class GameSettingsComponent implements OnInit {
   private loadUsers(id: string) {
     this.userService.getUsersByName().subscribe(result => {
       this.users = result.filter(u => u.uid !== id);
+      this.player2Id = this.users[0].uid;
       this.player1 = result.filter(u => u.uid === id)[0];
       console.log(result);
     }, error => {

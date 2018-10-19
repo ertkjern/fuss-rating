@@ -24,7 +24,7 @@
             <span *ngIf="isRegistering"><i class="fa fa-2x fa-cog fa-spin"></i></span>
             <span *ngIf="!isRegistering">Login</span>
           </button>
-          <span *ngIf="loginError" class="error">Username or password is wrong</span>
+          <span *ngIf="errorMessage" class="error">{{errorMessage}}</span>
         </form>
 
         <!--- New User -->
@@ -52,7 +52,7 @@
               <span *ngIf="!isRegistering">Register</span>
           </button>
 
-          <span *ngIf="loginError" class="error">Noen av feltene er ikke rett ufylt</span>
+          <span *ngIf="errorMessage" class="error">{{errorMessage}}</span>
         </form>
 
 

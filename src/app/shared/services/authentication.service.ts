@@ -22,23 +22,27 @@ export class AuthenticationService {
     this.user = fb.authState;
   }
 
-  login(email: string, password: string): Promise<boolean> {
+  login(email: string, password: string): Promise<any> {
     return new Promise(
       resolve => {
         this.fb.auth.signInWithEmailAndPassword(email, password).then(
-          () => {
-            resolve(true);
+          result => {
+            resolve(result);
           },
-          () => {
-            resolve(false);
+          err => {
+            const error = {
+              error: true,
+              data: err
+            };
+            resolve(error);
           }
         );
       }
     );
   }
 
-  register(email: string, password: string, username: string, name: string): Promise<boolean> {
-    return new Promise<boolean>(resolve => {
+  register(email: string, password: string, username: string, name: string): Promise<any> {
+    return new Promise<any>(resolve => {
       this.fb.auth.createUserWithEmailAndPassword(email, password).then(result => {
         const user = {
           email: email,
@@ -48,10 +52,13 @@ export class AuthenticationService {
           rating: 1500
         };
         this.storeUserData(user);
-        resolve(true);
-      }, error => {
-        console.log(error);
-        resolve(false);
+        resolve(result);
+      }, err => {
+        const error = {
+          error: true,
+          data: err
+        };
+        resolve(error);
       });
     });
   }

@@ -7,13 +7,12 @@
   .score-content {
     text-align: left;
     width: 100%;
-    min-height: 500px;
-    border: 2px solid $plum;
+    border-top: 1px solid $tangarine;
 
     .user{
       font-size: 18px;
       padding: 5px 5px 5px 5px;
-      border-bottom: 1px solid $plum;
+      border-bottom: 1px solid $tangarine;
     }
   }
   @media screen and (max-width: $large-screen) {

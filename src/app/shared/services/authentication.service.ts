@@ -72,15 +72,19 @@ export class AuthenticationService {
     this.router.navigate(['login']);
   }
 
-  resetPassword(email: string) {
+  resetPassword(email: string): Promise<any> {
     return new Promise(
       resolve => {
         this.fb.auth.sendPasswordResetEmail(email).then(
-          () => {
-            resolve(true);
+          result => {
+            resolve(result);
           },
-          () => {
-            resolve(false);
+          err => {
+            const error = {
+              error: true,
+              data: err
+            };
+            resolve(error);
           }
         );
       }

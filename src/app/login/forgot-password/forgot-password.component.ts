@@ -12,6 +12,7 @@ export class ForgotPasswordComponent implements OnInit {
   forgotPasswordForm: FormGroup;
   error: string;
   passwordReset: boolean;
+  errorMessage: string;
 
   constructor(private fb: FormBuilder, private auth: AuthenticationService, private validationService: ValidationService) {
   }
@@ -23,8 +24,13 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   resetPassword(value: any) {
-    this.auth.resetPassword(value.email).then(() => {
-      this.passwordReset = true;
+    this.auth.resetPassword(value.email).then(result => {
+      if (result && !result.error) {
+        this.passwordReset = true;
+        this.errorMessage = null;
+      } else{
+        this.errorMessage = result.data.message;
+      }
     }, error => {
       console.log(error);
     });

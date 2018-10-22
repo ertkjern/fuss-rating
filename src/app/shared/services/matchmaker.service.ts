@@ -136,7 +136,7 @@ export class MatchmakerService {
 
       if (player1Won) {
         match.player1.rating = Math.round(eloWinner);
-        match.player2.rating = Math.round(eloLooser);;
+        match.player2.rating = Math.round(eloLooser);
       } else {
         match.player1.rating = Math.round(eloLooser);
         match.player2.rating = Math.round(eloWinner);

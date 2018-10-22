@@ -6,13 +6,14 @@ import {AuthGuard} from './services/authGuard';
 import {CommonModule} from '@angular/common';
 import {UserService} from './services/user.service';
 import {MatchmakerService} from './services/matchmaker.service';
+import {HistoryService} from './services/history.service';
 
 
 @NgModule({
   imports: [CommonModule],
   exports: [HeaderComponent],
   declarations: [HeaderComponent],
-  providers: [ValidationService, AuthenticationService, AuthGuard, UserService, MatchmakerService],
+  providers: [ValidationService, AuthenticationService, AuthGuard, UserService, MatchmakerService, HistoryService],
 })
 export class SharedModule {
 }

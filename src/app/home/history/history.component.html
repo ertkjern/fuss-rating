@@ -1,0 +1,31 @@
+<div class="container history">
+  <div class="row">
+    <div class="col-12 center">
+      <h2>Recent matches</h2>
+    </div>
+  </div>
+
+  <div class="row history-table" *ngFor="let h of history">
+    <div class="col-2">
+      <p [ngClass]="{'loss': (h.player1NewRating - h.player1OldRating) <= 0, 'win' : (h.player1NewRating - h.player1OldRating) > 0}">
+        <span *ngIf="(h.player1NewRating - h.player1OldRating) > 0">+</span>
+        {{h.player1NewRating - h.player1OldRating}}
+      </p>
+    </div>
+    <div class="col-2">
+      <p>{{h.player1Username}} ({{h.player1NewRating}})</p>
+    </div>
+    <div class="col-2">
+      <p>VS</p>
+    </div>
+    <div class="col-2">
+      <p>{{h.player2Username}}  ({{h.player2NewRating}})</p>
+    </div>
+    <div class="col-2">
+      <p [ngClass]="{'loss': (h.player2NewRating - h.player2OldRating) <= 0, 'win' : (h.player2NewRating - h.player2OldRating) > 0}">
+        <span *ngIf="(h.player2NewRating - h.player2OldRating)">+</span>
+        {{h.player2NewRating - h.player2OldRating}}
+      </p>
+    </div>
+  </div>
+</div>

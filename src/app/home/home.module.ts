@@ -8,12 +8,13 @@ import {MatchmakerComponent} from './matchmaker/matchmaker.component';
 import {GameSettingsComponent} from './matchmaker/game-settings/game-settings.component';
 import {ScoreComponent} from './score/score.component';
 import {GamesComponent} from './games/games.component';
+import {HistoryComponent} from './history/history.component';
 
 
 @NgModule({
   imports: [HomeRouterModule, FormsModule, ReactiveFormsModule, CommonModule, SharedModule],
   exports: [],
-  declarations: [HomeComponent, MatchmakerComponent, GameSettingsComponent, ScoreComponent, GamesComponent],
+  declarations: [HomeComponent, MatchmakerComponent, GameSettingsComponent, ScoreComponent, GamesComponent, HistoryComponent],
   providers: [],
 })
 export class HomeModule {

@@ -1,0 +1,20 @@
+@import "../../../styles/variables";
+
+.history{
+  margin-top: 75px;
+  .center{
+    margin-bottom: 35px;
+    text-align: center;
+  }
+
+  .history-table{
+    border-top: 1px solid $tangarine;
+    .win{
+      color: green;
+    }
+    .loss{
+      color: red;
+    }
+  }
+
+}

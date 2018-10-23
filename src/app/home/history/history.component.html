@@ -12,18 +12,18 @@
         {{h.player1NewRating - h.player1OldRating}}
       </p>
     </div>
-    <div class="col-2">
+    <div class="col-3">
       <p>{{h.player1Username}} ({{h.player1NewRating}})</p>
     </div>
-    <div class="col-2">
+    <div class="col-1">
       <p>VS</p>
     </div>
-    <div class="col-2">
+    <div class="col-3">
       <p>{{h.player2Username}}  ({{h.player2NewRating}})</p>
     </div>
     <div class="col-2">
       <p [ngClass]="{'loss': (h.player2NewRating - h.player2OldRating) <= 0, 'win' : (h.player2NewRating - h.player2OldRating) > 0}">
-        <span *ngIf="(h.player2NewRating - h.player2OldRating)">+</span>
+        <span *ngIf="(h.player2NewRating - h.player2OldRating) > 0">+</span>
         {{h.player2NewRating - h.player2OldRating}}
       </p>
     </div>

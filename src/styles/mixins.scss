@@ -36,21 +36,21 @@
 }
 
 
-@mixin btn-shadow{
+@mixin btn-shadow(){
   -moz-box-shadow:  0 8px 20px rgba(190, 190, 190, 0.8);
   -webkit-box-shadow:  0 8px 20px rgba(190, 190, 190, 0.8);
   box-shadow:  0 8px 20px rgba(190, 190, 190, 0.8);
 }
 
-@mixin hover-effect{
+@mixin hover-effect(){
   -webkit-transition: all 0.5s ease-in-out;
   -moz-transition: all 0.5s ease-in-out;
   transition: all 0.5s ease-in-out;
 }
 
 
-@mixin standard-input{
-  border-bottom: 2px solid $plum;
+@mixin standard-input($color){
+  border-bottom: 2px solid $color;
   padding: 5px;
   font-size: 18px;
 }

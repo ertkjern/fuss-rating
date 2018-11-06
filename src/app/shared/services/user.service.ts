@@ -21,7 +21,7 @@ export class UserService {
 
   getUsersByName() {
     this.userCollection = this.afs.collection<UserModel>('users', ref => {
-      return ref.orderBy('name', 'asc');
+      return ref.orderBy('username', 'asc');
     });
     return this.userCollection.valueChanges();
   }

@@ -13,6 +13,9 @@
   }
   .product-title{
     font-size: 20px;
+    @media screen and (max-width: $small-screen) {
+
+    }
   }
   .material-icons{
     padding-left: 15px;

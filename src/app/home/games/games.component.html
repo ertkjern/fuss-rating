@@ -24,7 +24,7 @@
             <button *ngIf="match?.player1?.uid == myId || match?.player2.uid === myId"  (click)="registerWinner(false, match)" class="winner">Register {{match?.player2?.username}} as winner</button>
           </div>
           <div class="col-lg-12 delete">
-            <a *ngIf="match?.player1?.uid == myId || match?.player2.uid === myId" href="javascript:void(0)" (click)="deleteMatch(match)">Slett</a>
+            <button *ngIf="match?.player1?.uid == myId || match?.player2.uid === myId" href="javascript:void(0)" (click)="deleteMatch(match)">DELETE</button>
           </div>
         </div>
         <div *ngIf="loadingMatchId === match.id">

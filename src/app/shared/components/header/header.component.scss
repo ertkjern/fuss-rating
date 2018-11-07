@@ -11,9 +11,19 @@
      width: 80px;
     }
   }
-  h2{
+  .product-title{
+    font-size: 20px;
+  }
+  .material-icons{
+    padding-left: 15px;
+    vertical-align: middle;
+  }
+  .align-bottom{
+    padding-top: 45px;
+  }
+  .logout{
+    font-size: 22px;
     text-align: right;
-    padding-top: 25px;
     @media screen and (max-width: $md-screen) {
       padding-top: 15px;
       font-size: 24px;
@@ -27,12 +37,11 @@
     float: right;
     color: white;
     margin-left: 35px;
-    padding-top: 2px;
     &:visited{
-      color: $corp-blue;
+      color: white;
     }
     &:hover{
-      color: $plum;
+      color: $tangarine;
     }
     @media screen and (max-width: $small-screen) {
       margin-left: 15px;

@@ -1,27 +1,47 @@
 <div class="epic-background" [ngClass]="{'blur': hasLoaded}"></div>
 <div class="home" *ngIf="hasLoaded">
   <app-header></app-header>
-  <main>
-    <div class="matchmaker">
-      <app-matchmaker></app-matchmaker>
-    </div>
 
-
-    <div class="container-fluid">
+  <nav>
+    <div class="container">
       <div class="row">
-        <div class="col-md-6">
-          <app-games></app-games>
+        <div class="col-4">
+          <a [routerLink]="['/home']">Play</a>
         </div>
-        <div class="col-md-6">
-          <app-score></app-score>
+        <div class="col-4">
+          <a [routerLink]="['/home/leader-board']">Table</a>
+        </div>
+        <div class="col-4">
+          <a [routerLink]="['/home/history']">Recent</a>
         </div>
       </div>
     </div>
 
-    <div class="container-fluid">
-      <app-history></app-history>
-    </div>
+  </nav>
+  <main>
 
+    <router-outlet></router-outlet>
+
+    <!-- <div class="matchmaker">
+       <app-matchmaker></app-matchmaker>
+     </div>
+
+
+     <div class="container-fluid">
+       <div class="row">
+         <div class="col-md-6">
+           <app-games></app-games>
+         </div>
+         <div class="col-md-6">
+           <app-score></app-score>
+         </div>
+       </div>
+     </div>
+
+     <div class="container-fluid">
+       <app-history></app-history>
+     </div>
+ -->
   </main>
 </div>
 <div class="loading" *ngIf="!hasLoaded">

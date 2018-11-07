@@ -9,12 +9,26 @@ import {GameSettingsComponent} from './matchmaker/game-settings/game-settings.co
 import {ScoreComponent} from './score/score.component';
 import {GamesComponent} from './games/games.component';
 import {HistoryComponent} from './history/history.component';
+import {RouterModule} from '@angular/router';
 
 
 @NgModule({
-  imports: [HomeRouterModule, FormsModule, ReactiveFormsModule, CommonModule, SharedModule],
+  imports: [
+    HomeRouterModule,
+    FormsModule,
+    RouterModule,
+    ReactiveFormsModule,
+    CommonModule,
+    SharedModule
+  ],
   exports: [],
-  declarations: [HomeComponent, MatchmakerComponent, GameSettingsComponent, ScoreComponent, GamesComponent, HistoryComponent],
+  declarations: [
+    HomeComponent,
+    MatchmakerComponent,
+    GameSettingsComponent,
+    ScoreComponent,
+    GamesComponent,
+    HistoryComponent],
   providers: [],
 })
 export class HomeModule {

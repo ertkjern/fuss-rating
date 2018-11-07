@@ -5,6 +5,26 @@
   color: white;
 }
 
+nav{
+  margin-top: 35px;
+  width: 100%;
+  text-align: center;
+  border-bottom: 2px solid $tangarine;
+  padding-bottom: 15px;
+  a{
+    color: $tangarine;
+    font-size: 22px;
+    @include standard-transition();
+    &:visited{
+      color: $tangarine;
+    }
+    &:hover{
+      @include standard-transition();
+      color: $rasberry;
+    }
+  }
+}
+
 .matchmaker{
   margin-bottom: 50px;
 }

@@ -1,6 +1,13 @@
 <header class="header">
   <div class="container">
-    <img class="logo" src="./assets/images/evry_logo.png">
-    <h2>Fuss Matchmaker <a *ngIf="isLoggedIn" href="javascript:void(0)" (click)="logout()" aria-label="logout"><i class="material-icons">exit_to_app</i></a></h2>
+    <div class="row">
+      <div class="col-8">
+        <img class="logo" src="./assets/images/evry_logo.png">
+        <h2 class="align-bottom product-title">Fuss Matchmaker</h2>
+      </div>
+      <div class="col-4">
+        <a class="align-bottom logout" *ngIf="isLoggedIn" href="javascript:void(0)" (click)="logout()" aria-label="logout">Logout<i class="material-icons">exit_to_app</i></a>
+      </div>
+    </div>
   </div>
 </header>

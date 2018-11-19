@@ -10,6 +10,7 @@ import {ScoreComponent} from './score/score.component';
 import {GamesComponent} from './games/games.component';
 import {HistoryComponent} from './history/history.component';
 import {RouterModule} from '@angular/router';
+import {RegisterMatchComponent} from './register-winner/register-match.component';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import {RouterModule} from '@angular/router';
     GameSettingsComponent,
     ScoreComponent,
     GamesComponent,
+    RegisterMatchComponent,
     HistoryComponent],
   providers: [],
 })

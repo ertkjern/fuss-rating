@@ -63,18 +63,17 @@ export class MatchmakerService {
     });
   }
 
-  registerWinner(player1Won: boolean, match: MatchModel): Promise<boolean> {
-    return new Promise<boolean>( resolve => {
+  registerWinner(player1Won: boolean, match: MatchModel): Promise<HistoryModel> {
+    return new Promise<HistoryModel>( resolve => {
       const player1OldRating = match.player1.rating;
       const player2OldRating = match.player2.rating;
       const updatedMatch = this.calculateELORating(player1Won, match);
       if (updatedMatch) {
         this.updatePlayerRating(updatedMatch.player1).then(() => {
-          console.log('player 1 updated');
           this.updatePlayerRating(updatedMatch.player2).then(() => {
-            console.log('player 2 updated');
-            this.updateMatch(match, player1OldRating, player2OldRating, player1Won);
-            resolve(true);
+            this.updateMatch(match, player1OldRating, player2OldRating, player1Won).then(result => {
+              resolve(result);
+            });
           });
         });
       } else {
@@ -88,8 +87,8 @@ export class MatchmakerService {
     return this.afs.collection<UserModel>('users').doc(player.uid).update(player);
   }
 
-  private updateMatch(match: MatchModel, player1Oldrating: number, player2OldRating: number, player1Won): Promise<boolean> {
-    return new Promise<boolean>(resolve => {
+  private updateMatch(match: MatchModel, player1Oldrating: number, player2OldRating: number, player1Won): Promise<HistoryModel> {
+    return new Promise<HistoryModel>(resolve => {
       match.lastUpdated = new Date();
       const normalizedMatch: HistoryModel = {
         created: match.created,
@@ -107,8 +106,7 @@ export class MatchmakerService {
         player1Won: player1Won
       };
       this.afs.collection<HistoryModel>('history').add(normalizedMatch).then(() => {
-        this.afs.collection<MatchModel>('matches').doc(match.id).delete();
-        resolve(true);
+        resolve(normalizedMatch);
       });
     });
 

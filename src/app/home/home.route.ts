@@ -2,9 +2,9 @@ import {Routes, RouterModule} from '@angular/router';
 
 import {HomeComponent} from './home.component';
 import {AuthGuard} from '../shared/services/authGuard';
-import {MatchmakerComponent} from './matchmaker/matchmaker.component';
 import {ScoreComponent} from './score/score.component';
 import {HistoryComponent} from './history/history.component';
+import {RegisterMatchComponent} from './register-winner/register-match.component';
 
 const HOME: Routes = [
   {
@@ -14,7 +14,7 @@ const HOME: Routes = [
     children: [
       {
         path: '',
-        component: MatchmakerComponent,
+        component: RegisterMatchComponent,
       },
       {
         path: 'leader-board',

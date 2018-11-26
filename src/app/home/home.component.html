@@ -18,9 +18,21 @@
     </div>
 
   </nav>
+
   <main>
     <router-outlet></router-outlet>
   </main>
+
+  <div class="release-notes">
+    <h3>Release 1.1.0 Beta</h3>
+
+    <p>This release has the following changes:</p>
+    <ul>
+      <li>Improved ELO score</li>
+      <li>Register winner directly, no need to create a match</li>
+      <li>Bug fixes</li>
+    </ul>
+  </div>
 </div>
 <div class="loading" *ngIf="!hasLoaded">
   <span><i class="fa fa-4x fa-cog fa-spin"></i></span>

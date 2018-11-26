@@ -16,6 +16,7 @@ export class RegisterMatchComponent implements OnInit {
   player1: UserModel;
   player2: UserModel;
   matchResult: HistoryModel;
+  player1Id: string;
   player2Id: string;
   isLoading: boolean;
   hasRegisterd: boolean;
@@ -33,15 +34,15 @@ export class RegisterMatchComponent implements OnInit {
 
   private loadUsers(id: string) {
     this.userService.getUsersByName().subscribe(result => {
-      this.users = result.filter(u => u.uid !== id);
-      this.player1 = result.filter(u => u.uid === id)[0];
+      this.users = result;
     }, error => {
       console.log(error);
     });
   }
 
-  registerWinner(){
-    if (this.player2Id && this.player1) {
+  registerWinner() {
+    if (this.player2Id && this.player1Id) {
+      this.player1 = this.users.filter(u => u.uid === this.player1Id)[0];
       if (confirm('Did ' + this.player1.name + 'win?')) {
         this.isLoading = true;
         this.player2 = this.users.filter(u => u.uid === this.player2Id)[0];

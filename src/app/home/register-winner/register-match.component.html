@@ -7,15 +7,15 @@
         <div class="row">
           <div class="col-5">
             <label class="select-label" for="player1">Winner</label>
-            <select disabled class="select-box" id="player1">
-              <option [selected]="true" [value]="player1?.uid">{{player1?.username}} ({{player1?.name}})</option>
+            <select [(ngModel)]="player1Id" class="select-box" id="player1">
+              <option *ngFor="let user of users" [disabled]="user.uid === player2Id" [value]="user.uid">{{user?.username}} ({{user?.name}})</option>
             </select>
           </div>
           <div class="col-2"><span class="vs">VS</span></div>
           <div class="col-5">
             <label class="select-label" for="player2">Looser</label>
             <select class="select-box" id="player2" [(ngModel)]="player2Id">
-              <option *ngFor="let user of users" [value]="user.uid">{{user?.username}} ({{user?.name}})</option>
+              <option *ngFor="let user of users" [disabled]="user.uid === player1Id" [value]="user.uid">{{user?.username}} ({{user?.name}})</option>
             </select>
           </div>
         </div>
@@ -27,8 +27,8 @@
         </div>
       </div>
       <div *ngIf="!isLoading && hasRegisterd">
-        <h3>{{player1.name}} won the game!</h3>
-        <div class="row">
+        <h3 class="header-winner">{{player1.name}} won the game!</h3>
+        <div class="row summary-match">
           <div class="col-2">
             <p [ngClass]="{'loss': (matchResult.player1NewRating - matchResult.player1OldRating) <= 0, 'win' : (matchResult.player1NewRating - matchResult.player1OldRating) > 0}">
               <span *ngIf="(matchResult.player1NewRating - matchResult.player1OldRating) > 0">+</span>

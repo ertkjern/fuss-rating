@@ -51,6 +51,14 @@ nav{
   padding: 10px 10px 10px 10px;
   border: 2px solid white;
   border-radius: 10px;
+
+  .close{
+    @include no-button-styling();
+    float: right;
+    .material-icons{
+      color: white;
+    }
+  }
 }
 
 .blur{

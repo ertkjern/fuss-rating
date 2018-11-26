@@ -23,8 +23,8 @@
     <router-outlet></router-outlet>
   </main>
 
-  <div class="release-notes">
-    <h3>Release 1.1.0 Beta</h3>
+  <div *ngIf="!hasReadReleaseNote" class="release-notes">
+    <h3>Release 1.1.0 Beta <button (click)="close()" class="close"><i class="material-icons">close</i></button></h3>
 
     <p>This release has the following changes:</p>
     <ul>

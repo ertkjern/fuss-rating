@@ -131,8 +131,8 @@ export class MatchmakerService {
       const e1 = rw / (rw + rl);
       const e2 = rl / (rw + rl);
 
-      const eloWinner = winnerRating + 32 * (1 - e1);
-      const eloLooser = looserRating + 32 * (0 - e2);
+      const eloWinner = winnerRating + 20 * (1 - e1);
+      const eloLooser = looserRating + 20 * (0 - e2);
 
       if (player1Won) {
         match.player1.rating = Math.round(eloWinner);

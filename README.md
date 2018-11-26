@@ -34,8 +34,7 @@ Install all packages using either npm or yarn:
 `npm install` or `yarn install`
 
 To be able to use add matches you have to create a new Firebase datbase. This is a free service to use. 
-The production database is public, but please don't use this for testing. I recommend therefore to create a new 
-*Firestore database* and enable *email authentication*. 
+I recommend to create a new *Firestore database* and enable *email authentication* when developing. 
 
 After you have created a new Firebase database, you can add the firebase information to the `environment.ts` files 
 A more detailed description on how to setup Firebase with Angular can be found [here](https://github.com/angular/angularfire2) and a 

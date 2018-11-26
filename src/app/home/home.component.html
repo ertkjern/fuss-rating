@@ -18,31 +18,21 @@
     </div>
 
   </nav>
+
   <main>
-
     <router-outlet></router-outlet>
-
-    <!-- <div class="matchmaker">
-       <app-matchmaker></app-matchmaker>
-     </div>
-
-
-     <div class="container-fluid">
-       <div class="row">
-         <div class="col-md-6">
-           <app-games></app-games>
-         </div>
-         <div class="col-md-6">
-           <app-score></app-score>
-         </div>
-       </div>
-     </div>
-
-     <div class="container-fluid">
-       <app-history></app-history>
-     </div>
- -->
   </main>
+
+  <div *ngIf="!hasReadReleaseNote" class="release-notes">
+    <h3>Release 1.1.0 Beta <button (click)="close()" class="close"><i class="material-icons">close</i></button></h3>
+
+    <p>This release has the following changes:</p>
+    <ul>
+      <li>Improved ELO score</li>
+      <li>Register winner directly, no need to create a match</li>
+      <li>Bug fixes</li>
+    </ul>
+  </div>
 </div>
 <div class="loading" *ngIf="!hasLoaded">
   <span><i class="fa fa-4x fa-cog fa-spin"></i></span>

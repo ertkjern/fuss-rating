@@ -44,6 +44,23 @@ nav{
     @include slow-transition();
 }
 
+.release-notes{
+  margin: auto;
+  max-width: 350px;
+  margin-top: 45px;
+  padding: 10px 10px 10px 10px;
+  border: 2px solid white;
+  border-radius: 10px;
+
+  .close{
+    @include no-button-styling();
+    float: right;
+    .material-icons{
+      color: white;
+    }
+  }
+}
+
 .blur{
   @include slow-transition();
   background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(../../assets/images/evry-background.png); //if no support for gradient

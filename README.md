@@ -2,21 +2,24 @@
 
 A super simple fuss rating system based on the Chess [ELO-rating](https://no.wikipedia.org/wiki/Elo-rating).
 
+The following web project is an *Angular 7.x* project. The styling is built on [Bootstrap 4.x Beta](https://getbootstrap.com/) as CSS framework. Styling is otherwise implemented using [SCSS](http://sass-lang.com/guide). 
+
 The app can be found and used at [https://ertkjern.com/fuss](https://ertkjern.com/fuss).
 
 After you have played a new match, you can register a winner and a looser. Then the system will calculate 
 a rating based on the rating between the two players. 
 
-The following web project is an *Angular 7.x* project. The styling is built on [Bootstrap 4.x Beta](https://getbootstrap.com/) as CSS framework. Styling is otherwise implemented using [SCSS](http://sass-lang.com/guide). 
+You can easily create matches and register fake ratings. 
+This is a gentleman system. Use it with care and don't ruin the fun
+
 
 
 ## Content
 
 * [Installation](#installation)
 * [Contribution](#contribution)
-* [Gentleman Agreement](#Gentleman Agreement)
-* [Code scaffolding](#Code scaffolding)
-* [Further help] (#Further help)
+* [Scaffolding](#Scaffolding)
+* [Help](#Help)
 
 ## Installation
 
@@ -44,10 +47,6 @@ After you have setup Firebase, you can run the project like this:
 
 Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Gentleman Agreement
-
-You can easily create matches and register fake ratings. 
-This is a gentleman system. Use it with care and don't ruin the fun.  
 
 ## Contribution
 
@@ -66,12 +65,12 @@ npm run test // to verify nothing has been broken
 
 ```
 npm run lint // to avoid bad code, as missing semicolons.
- 
+```
 
-## Code scaffolding
+## Scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Further help
+## Help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).

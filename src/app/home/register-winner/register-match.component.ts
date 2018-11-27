@@ -25,6 +25,8 @@ export class RegisterMatchComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.player1Id = '';
+    this.player2Id = '';
     this.auth.isLoggedIn().subscribe(result => {
       this.loadUsers(result.uid);
     }, error => {
@@ -43,7 +45,7 @@ export class RegisterMatchComponent implements OnInit {
   registerWinner() {
     if (this.player2Id && this.player1Id) {
       this.player1 = this.users.filter(u => u.uid === this.player1Id)[0];
-      if (confirm('Did ' + this.player1.name + 'win?')) {
+      if (confirm('Did ' + this.player1.name + ' win?')) {
         this.isLoading = true;
         this.player2 = this.users.filter(u => u.uid === this.player2Id)[0];
         const matchModel: MatchModel = this.createMatch(this.player1, this.player2);
@@ -58,6 +60,10 @@ export class RegisterMatchComponent implements OnInit {
         console.log('Cancel');
       }
     }
+  }
+
+  registerNewMatch() {
+    this.hasRegisterd = false;
   }
 
   private createMatch(player1: UserModel, player2): MatchModel {

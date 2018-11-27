@@ -38,7 +38,7 @@ export class GameSettingsComponent implements OnInit {
     });
   }
 
-  newMatch(){
+  newMatch() {
     this.matchCreated = false;
   }
 

@@ -6,13 +6,15 @@
       <div class="col-5">
         <label class="select-label" for="player1">Player 1</label>
         <select disabled class="select-box" id="player1">
-          <option [selected]="true" [value]="player1?.uid">{{player1?.username}} ({{player1?.name}}</option>
+          <option selected disabled value="">Velg...</option>
+          <option [value]="player1?.uid">{{player1?.username}} ({{player1?.name}}</option>
         </select>
       </div>
-      <div class="col-2"><span class="vs">VS</span></div>
+      <div class="col-2"><span class="vs">won against</span></div>
       <div class="col-5">
         <label class="select-label" for="player2">Player 2</label>
         <select class="select-box" id="player2" [(ngModel)]="player2Id">
+          <option selected disabled value="">Velg...</option>
           <option *ngFor="let user of users" [value]="user.uid">{{user?.username}} ({{user?.name}})</option>
         </select>
       </div>

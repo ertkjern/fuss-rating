@@ -6,7 +6,7 @@ The following web project is an *Angular 7.x* project. The styling is built on [
 
 The app can be found and used at [https://ertkjern.com/fuss](https://ertkjern.com/fuss).
 
-After you have played a new match, you can register a winner and a looser. Then the system will calculate 
+After you have played a new match, you can register a winner and a loser. Then the system will calculate 
 a rating based on the rating between the two players. 
 
 You can easily create matches and register fake ratings. 

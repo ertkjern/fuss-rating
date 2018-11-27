@@ -114,29 +114,29 @@ export class MatchmakerService {
 
   private calculateELORating(player1Won: boolean, match: MatchModel): MatchModel {
     let winnerRating = 0;
-    let looserRating = 0;
+    let loserRating = 0;
     if (player1Won) {
       winnerRating = match.player1.rating;
-      looserRating = match.player2.rating;
+      loserRating = match.player2.rating;
     } else {
       winnerRating = match.player2.rating;
-      looserRating = match.player1.rating;
+      loserRating = match.player1.rating;
     }
-    if (winnerRating > 0 && looserRating > 0) {
+    if (winnerRating > 0 && loserRating > 0) {
       const rw = Math.pow(10, (winnerRating / 400));
-      const rl = Math.pow(10, (looserRating / 400));
+      const rl = Math.pow(10, (loserRating / 400));
 
       const e1 = rw / (rw + rl);
       const e2 = rl / (rw + rl);
 
-      const eloWinner = winnerRating + 32 * (1 - e1);
-      const eloLooser = looserRating + 32 * (0 - e2);
+      const eloWinner = winnerRating + 20 * (1 - e1);
+      const eloloser = loserRating + 20 * (0 - e2);
 
       if (player1Won) {
         match.player1.rating = Math.round(eloWinner);
-        match.player2.rating = Math.round(eloLooser);
+        match.player2.rating = Math.round(eloloser);
       } else {
-        match.player1.rating = Math.round(eloLooser);
+        match.player1.rating = Math.round(eloloser);
         match.player2.rating = Math.round(eloWinner);
       }
       return match;

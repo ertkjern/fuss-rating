@@ -11,15 +11,17 @@ import {GamesComponent} from './games/games.component';
 import {HistoryComponent} from './history/history.component';
 import {RouterModule} from '@angular/router';
 import {RegisterMatchComponent} from './register-winner/register-match.component';
+import {NgSelectModule} from '@ng-select/ng-select';
 
 
 @NgModule({
   imports: [
-    HomeRouterModule,
-    FormsModule,
-    RouterModule,
-    ReactiveFormsModule,
     CommonModule,
+    FormsModule,
+    HomeRouterModule,
+    NgSelectModule,
+    ReactiveFormsModule,
+    RouterModule,
     SharedModule
   ],
   exports: [],

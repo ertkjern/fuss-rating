@@ -7,18 +7,18 @@
         <div class="row">
           <div class="col-5">
             <label class="select-label" for="player1">Winner</label>
-            <select [(ngModel)]="player1Id" class="select-box" id="player1">
-              <option disabled value="" selected>Velg...</option>
-              <option *ngFor="let user of users" [disabled]="user.uid === player2Id" [value]="user.uid">{{user?.username}} ({{user?.name}})</option>
-            </select>
+            <ng-select id="player1" [(ngModel)]="player1Id">
+              <ng-option [value]="''">Velg...</ng-option>
+              <ng-option *ngFor="let user of users" [value]="user.uid" [disabled]="user.uid === player2Id" >{{user.username}} ({{user.name}})</ng-option>
+            </ng-select>
           </div>
           <div class="col-2"><span class="vs">won against</span></div>
           <div class="col-5">
             <label class="select-label" for="player2">Loser</label>
-            <select class="select-box" id="player2" [(ngModel)]="player2Id">
-              <option disabled value="" selected>Velg...</option>
-              <option *ngFor="let user of users" [disabled]="user.uid === player1Id" [value]="user.uid">{{user?.username}} ({{user?.name}})</option>
-            </select>
+            <ng-select id="player2" [(ngModel)]="player2Id">
+              <ng-option [value]="''">Velg...</ng-option>
+              <ng-option *ngFor="let user of users" [value]="user.uid" [disabled]="user.uid === player1Id" >{{user.username}} ({{user.name}})</ng-option>
+            </ng-select>
           </div>
         </div>
 

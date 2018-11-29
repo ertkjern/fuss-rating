@@ -1,10 +1,9 @@
 sudo: required
 addons:
   chrome: stable
-cache: yarn
 language: node_js
-node_js:
-- "10"
+node_js: "10"
+cache: yarn
 
 branches:
   only:

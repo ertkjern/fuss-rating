@@ -3,12 +3,12 @@
  */
 import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {Observable} from 'rxjs';
+import {from, Observable, of} from 'rxjs';
 import * as firebase from 'firebase';
 import {Router} from '@angular/router';
-import {User} from 'firebase';
 import {UserModel} from '../models/user.model';
 import {AngularFirestore} from '@angular/fire/firestore';
+import {catchError, map, tap} from 'rxjs/operators';
 
 
 @Injectable()
@@ -41,9 +41,9 @@ export class AuthenticationService {
     );
   }
 
-  register(email: string, password: string, username: string, name: string): Promise<any> {
-    return new Promise<any>(resolve => {
-      this.fb.auth.createUserWithEmailAndPassword(email, password).then(result => {
+  register(email: string, password: string, username: string, name: string): Observable<any> {
+    return from(this.fb.auth.createUserWithEmailAndPassword(email, password)).pipe(
+      tap(result => {
         const user = {
           email: email,
           username: username,
@@ -52,15 +52,15 @@ export class AuthenticationService {
           rating: 1500
         };
         this.storeUserData(user);
-        resolve(result);
-      }, err => {
-        const error = {
-          error: true,
-          data: err
-        };
-        resolve(error);
-      });
-    });
+      }),
+      catchError(err => of({error: true, data: err}))
+    );
+  }
+
+  exists(username: string): Observable<any> {
+    return this.afs.collection<UserModel>('users', ref => {
+      return ref.where('username', '==', username);
+    }).get().pipe(map(collection => collection.size > 0));
   }
 
   storeUserData(user: any) {

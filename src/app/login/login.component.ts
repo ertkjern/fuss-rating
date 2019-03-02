@@ -4,7 +4,8 @@ import {ValidationService} from '../shared/services/validation.service';
 import {LoginModel} from '../shared/models/login.model';
 import {AuthenticationService} from '../shared/services/authentication.service';
 import {Router} from '@angular/router';
-import {UserModel} from '../shared/models/user.model';
+import {switchMap} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -69,7 +70,15 @@ export class LoginComponent implements OnInit {
   register(user: any) {
     if (this.registerUser.valid) {
       this.isRegistering = true;
-      this.auth.register(user.email, user.password, user.username, user.name).then(result => {
+
+      this.auth.exists(user.username).pipe(
+        switchMap(exists => {
+          if (exists) {
+            return of({error: true, data: {message: 'Username is taken'}});
+          }
+          return this.auth.register(user.email, user.password, user.username, user.name);
+        })
+      ).subscribe(result => {
         if (result && !result.error) {
           this.isRegistering = false;
           this.router.navigate(['home']);

@@ -1,4 +1,4 @@
-# Evry Fuss Rating System
+# Evry Fuss Rating System [![Build Status](https://travis-ci.org/ertkjern/fuss-rating.svg?branch=master)](https://travis-ci.org/ertkjern/fuss-rating)
 
 A super simple fuss rating system based on the Chess [ELO-rating](https://no.wikipedia.org/wiki/Elo-rating).
 

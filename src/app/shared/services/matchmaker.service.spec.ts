@@ -73,16 +73,15 @@ describe('MatchmakerService', () => {
       const match = setup1v1Match(1360, 1520);
       const actual = service['calculate1v1ELORating'](true, match);
       expect(actual.player1.rating).toEqual(1374);
-      expect(actual.player2.rating).toEqual(1520);
+      expect(actual.player2.rating).toEqual(1506);
     });
 
-
-    it('should result in player1(1374), player2(1520)', () => {
+    it('should result in player1(1481), player2(1648)', () => {
       const service = TestBed.get(MatchmakerService);
       const match = setup1v1Match(1487, 1642);
       const actual = service['calculate1v1ELORating'](false, match);
-      expect(actual.player1.rating).toEqual(1374);
-      expect(actual.player2.rating).toEqual(1520);
+      expect(actual.player1.rating).toEqual(1481);
+      expect(actual.player2.rating).toEqual(1648);
     });
   });
 });

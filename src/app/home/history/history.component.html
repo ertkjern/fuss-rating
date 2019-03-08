@@ -6,26 +6,30 @@
   </div>
 
   <div class="row history-table" *ngFor="let h of history">
-    <div class="col-2">
+    <div class="col-11 center-text font-weight-light underline">
+      {{h.created |date: 'dd/MM/yyyy hh:mm' }}
+    </div>
+    <div class="col-2 center-text">
       <p [ngClass]="{'loss': (h.player1NewRating - h.player1OldRating) <= 0, 'win' : (h.player1NewRating - h.player1OldRating) > 0}">
         <span *ngIf="(h.player1NewRating - h.player1OldRating) > 0">+</span>
         {{h.player1NewRating - h.player1OldRating}}
       </p>
     </div>
-    <div class="col-3">
+    <div class="col-3 center-text">
       <p>{{h.player1Username}} ({{h.player1NewRating}})</p>
     </div>
-    <div class="col-1">
+    <div class="col-1 center-text">
       <p>VS</p>
     </div>
-    <div class="col-3">
+    <div class="col-3 center-text">
       <p>{{h.player2Username}}  ({{h.player2NewRating}})</p>
     </div>
-    <div class="col-2">
+    <div class="col-2 center-text">
       <p [ngClass]="{'loss': (h.player2NewRating - h.player2OldRating) <= 0, 'win' : (h.player2NewRating - h.player2OldRating) > 0}">
         <span *ngIf="(h.player2NewRating - h.player2OldRating) > 0">+</span>
         {{h.player2NewRating - h.player2OldRating}}
       </p>
     </div>
+
   </div>
 </div>

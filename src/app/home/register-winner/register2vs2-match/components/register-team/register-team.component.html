@@ -1,0 +1,26 @@
+<div *ngIf="!isLoading" class="row">
+  <div class="col-5">
+    <label class="select-label" for="player1">Player 1</label>
+    <ng-select id="player1" [(ngModel)]="player1">
+      <ng-option [value]="''">Velg...</ng-option>
+      <ng-option *ngFor="let user of users" [value]="user" [disabled]="user.uid === player2?.uid">{{user.username}}
+        ({{user.name}})
+      </ng-option>
+    </ng-select>
+  </div>
+  <div class="col-5">
+    <label class="select-label" for="player2">Player 2</label>
+    <ng-select id="player2" [(ngModel)]="player2">
+      <ng-option [value]="''">Velg...</ng-option>
+      <ng-option *ngFor="let user of users" [value]="user" [disabled]="user.uid === player1?.uid">{{user.username}}
+        ({{user.name}})
+      </ng-option>
+    </ng-select>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <span *ngIf="displayTeamExistsWarning">Team exists</span>
+      <button (click)="registerNewTeam()" class="register-team">REGISTER NEW TEAM</button>
+    </div>
+  </div>
+</div>

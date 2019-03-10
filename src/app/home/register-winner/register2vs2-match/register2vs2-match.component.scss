@@ -1,0 +1,55 @@
+@import "../../../../styles/variables";
+@import "../../../../styles/mixins";
+
+.register-match{
+  margin-top: 35px;
+  text-align: center;
+
+  .select-label{
+    text-align: left;
+    font-size: 18px;
+  }
+  .vs{
+    display: block;
+    text-align: center;
+    margin-top: 24px;
+    font-size: 28px
+  }
+  .select-box{
+    margin: auto;
+    width: 100%;
+    font-size: 18px;
+    border: none;
+    background: none;
+    border: 1px solid $tangarine;
+    border-radius: 0px;
+    background-color: white;
+    display: block;
+  }
+
+  .create-game{
+    @include no-button-styling();
+    @include standard-button($tangarine, $tangarine-transparent, white);
+    width: 300px;
+    font-size: 22px;
+    padding: 5px;
+    margin-top: 35px;
+  }
+
+  .loss{
+    color: red;
+  }
+
+  .win{
+    color: green;
+  }
+
+  .header-winner{
+    margin-top: 35px;
+  }
+
+  .summary-match{
+    font-size: 22px;
+    margin-top: 35px;
+  }
+}

@@ -31,6 +31,7 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.3.1",
     "rxjs": "^6.3.3",
+    "unique-names-generator": "^2.0.1",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {

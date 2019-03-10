@@ -1,10 +1,11 @@
-import {UserModel} from './user.model';
 
 export class TeamModel {
-  player1: UserModel;
-  player2: UserModel;
-
-  rating(): number {
-    return Math.round((this.player1.rating + this.player2.rating) / 2);
-  }
+  uid?: string;
+  isPlaying: boolean;
+  player1Uid: string;
+  player1Name: string;
+  player2Uid: string;
+  player2Name: string;
+  name: string;
+  rating: number;
 }

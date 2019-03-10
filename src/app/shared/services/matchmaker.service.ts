@@ -2,12 +2,11 @@ import {Injectable} from '@angular/core';
 import {UserModel} from '../models/user.model';
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
 import {MatchModel} from '../models/match.model';
-import {map, switchMap} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {HistoryModel} from '../models/history.model';
 import {TeamMatchModel} from '../models/team-match.model';
-import {combineLatest, Observable} from 'rxjs';
-import {fromPromise} from 'rxjs/internal-compatibility';
 import {TeamHistoryModel} from '../models/team-history.model';
+import {TeamModel} from '../models/team.model';
 
 @Injectable()
 export class MatchmakerService {
@@ -89,22 +88,16 @@ export class MatchmakerService {
   // TODO fix
   registerWinnerTeam(team1Won: boolean, match: TeamMatchModel): Promise<TeamHistoryModel> {
     return new Promise<TeamHistoryModel>(resolve => {
-      const player1OldRating = match.team1.player1.rating;
-      const player2OldRating = match.team1.player2.rating;
-      const player3OldRating = match.team2.player1.rating;
-      const player4OldRating = match.team2.player2.rating;
+      const team1OldRating = match.team1.rating;
+      const team2OldRating = match.team2.rating;
       const updatedMatch = this.calculate2v2ELORating(team1Won, match);
       if (updatedMatch) {
-        this.updatePlayerRating(updatedMatch.team1.player1).then(() => {
-          this.updatePlayerRating(updatedMatch.team1.player2).then(() => {
-            this.updatePlayerRating(updatedMatch.team2.player1).then(() => {
-              this.updatePlayerRating(updatedMatch.team2.player2).then(() => {
-                this.updateTeamMatch(match, player1OldRating, player2OldRating, player3OldRating, player4OldRating, team1Won)
-                  .then(result => {
-                    resolve(result);
-                  });
+        this.updateTeamRating(updatedMatch.team1).then(() => {
+          this.updateTeamRating(updatedMatch.team2).then(() => {
+            this.updateTeamMatch(match, team1OldRating, team2OldRating, team1Won)
+              .then(result => {
+                resolve(result);
               });
-            });
           });
         });
       } else {
@@ -116,6 +109,11 @@ export class MatchmakerService {
   private updatePlayerRating(player: UserModel): Promise<void> {
     player.isPlaying = false;
     return this.afs.collection<UserModel>('users').doc(player.uid).update(player);
+  }
+
+  private updateTeamRating(team: TeamModel): Promise<void> {
+    team.isPlaying = false;
+    return this.afs.collection<UserModel>('teams').doc(team.uid).update(team);
   }
 
   private updateMatch(match: MatchModel, player1Oldrating: number, player2OldRating: number, player1Won): Promise<HistoryModel> {
@@ -143,39 +141,29 @@ export class MatchmakerService {
   }
 
   private updateTeamMatch(match: TeamMatchModel,
-                          player1OldRating: number,
-                          player2OldRating: number,
-                          player3OldRating: number,
-                          player4OldRating: number,
+                          team1OldRating: number,
+                          team2OldRating: number,
                           team1Won: boolean): Promise<TeamHistoryModel> {
     return new Promise<TeamHistoryModel>(resolve => {
       match.lastUpdated = new Date();
       const normalizedMatch: TeamHistoryModel = {
         created: match.created,
         lastUpdated: new Date(),
-        player1Username: match.team1.player1.username,
-        player1Name: match.team1.player1.name,
-        player1Uid: match.team1.player1.uid,
-        player1NewRating: match.team1.player1.rating,
-        player1OldRating: player1OldRating,
-        player2NewRating: match.team1.player2.rating,
-        player2OldRating: player2OldRating,
-        player2Uid: match.team1.player2.uid,
-        player2Username: match.team1.player2.username,
-        player2Name: match.team1.player2.name,
-        player3NewRating: match.team1.player2.rating,
-        player3OldRating: player3OldRating,
-        player3Uid: match.team2.player1.uid,
-        player3Username: match.team2.player1.username,
-        player3Name: match.team2.player1.name,
-        player4NewRating: match.team2.player2.rating,
-        player4OldRating: player4OldRating,
-        player4Uid: match.team2.player2.uid,
-        player4Username: match.team2.player2.username,
-        player4Name: match.team2.player2.name,
+        team1Uid: match.team1.uid,
+        team1Name: match.team1.name,
+        team1Player1Name: match.team1.player1Name,
+        team1Player2Name: match.team1.player2Name,
+        team1OldRating: team1OldRating,
+        team1NewRating: match.team1.rating,
+        team2Uid: match.team2.uid,
+        team2Name: match.team2.name,
+        team2Player1Name: match.team2.player1Name,
+        team2Player2Name: match.team2.player2Name,
+        team2OldRating: team2OldRating,
+        team2NewRating: match.team2.rating,
         team1Won: team1Won
       };
-      this.afs.collection<TeamHistoryModel>('history').add(normalizedMatch).then(() => {
+      this.afs.collection<TeamHistoryModel>('team-history').add(normalizedMatch).then(() => {
         resolve(normalizedMatch);
       });
     });
@@ -199,26 +187,17 @@ export class MatchmakerService {
 
 
   private calculate2v2ELORating(team1Won: boolean, match: TeamMatchModel): TeamMatchModel {
-    if (match.team1.player1.rating <= 0 || match.team1.player2.rating <= 0
-      || match.team2.player1.rating <= 0 || match.team2.player2.rating <= 0) {
+    if (match.team1.rating <= 0 || match.team2.rating <= 0) {
       return null;
     }
-    const oldTeam1Rating = match.team1.rating();
-    const oldTeam2Rating = match.team2.rating();
     if (team1Won) {
-      const newTeamRatings = this.calculateELORating(oldTeam1Rating, oldTeam2Rating);
-      const ratingChangeTeam1 = newTeamRatings[0] - oldTeam1Rating;
-      const ratingChangeTeam2 = newTeamRatings[1] - oldTeam1Rating;
-      match.team1.player1.rating = match.team1.player1.rating + ratingChangeTeam1;
-      match.team1.player2.rating += ratingChangeTeam1;
-      match.team2.player1.rating += ratingChangeTeam2;
-      match.team2.player2.rating += ratingChangeTeam2;
+      const newRatings = this.calculateELORating(match.team1.rating, match.team2.rating);
+      match.team1.rating = newRatings[0];
+      match.team2.rating = newRatings[1];
     } else {
-      const newTeamRatings = this.calculateELORating(oldTeam2Rating, oldTeam1Rating);
-      match.team2.player1.rating += newTeamRatings[0] - oldTeam1Rating;
-      match.team2.player2.rating += newTeamRatings[0] - oldTeam1Rating;
-      match.team1.player1.rating += newTeamRatings[1] - oldTeam2Rating;
-      match.team1.player2.rating += newTeamRatings[1] - oldTeam2Rating;
+      const newRatings = this.calculateELORating(match.team2.rating, match.team1.rating);
+      match.team1.rating = newRatings[1];
+      match.team2.rating = newRatings[0];
     }
     return match;
   }

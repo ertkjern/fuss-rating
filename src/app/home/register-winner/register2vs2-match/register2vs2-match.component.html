@@ -5,20 +5,29 @@
       <div *ngIf="isLoading"><span class="fa fa-cog fa-spin fa-4x"></span></div>
       <div *ngIf="!isLoading && !hasRegistered">
         <div class="row">
+          <h3 aria-hidden="true" class="col-5">Winners</h3>
+          <div class="col-2"></div>
+          <h3 aria-hidden="true" class="col-5">Losers</h3>
+        </div>
+        <div class="row selector-row">
           <div class="col-5">
-            <label class="select-label" for="player1">Winner</label>
-            <ng-select id="player1" [(ngModel)]="team1">
-              <ng-option [value]="''">Velg...</ng-option>
-              <ng-option *ngFor="let team of teams" [value]="team" [disabled]="team.uid === team2?.uid" >{{team.name}} ({{team.player1Name}} - {{team.player2Name}})</ng-option>
-            </ng-select>
+            <h3 class="cdk-visually-hidden">Winners</h3>
+            <app-player-selector [(player)]="players[0]" [players]="users" [disabled]="playersWithout(players[0])"
+                                 label="Player 1">
+            </app-player-selector>
+            <app-player-selector [(player)]="players[1]" [players]="users" [disabled]="playersWithout(players[1])"
+                                 label="Player 2">
+            </app-player-selector>
           </div>
           <div class="col-2"><span class="vs">won against</span></div>
           <div class="col-5">
-            <label class="select-label" for="player2">Loser</label>
-            <ng-select id="player2" [(ngModel)]="team2">
-              <ng-option [value]="''">Velg...</ng-option>
-              <ng-option *ngFor="let team of teams" [value]="team" [disabled]="team.uid === team1?.uid" >{{team.name}} ({{team.player1Name}} - {{team.player2Name}})</ng-option>
-            </ng-select>
+            <h3 class="cdk-visually-hidden">Losers</h3>
+            <app-player-selector [(player)]="players[2]" [players]="users" [disabled]="playersWithout(players[2])"
+                                 label="Player 3">
+            </app-player-selector>
+            <app-player-selector [(player)]="players[3]" [players]="users" [disabled]="playersWithout(players[3])"
+                                 label="Player 4">
+            </app-player-selector>
           </div>
         </div>
 
@@ -29,10 +38,11 @@
         </div>
       </div>
       <div *ngIf="!isLoading && hasRegistered">
-        <h3 class="header-winner">🏆 {{team1.name}} WON! 🏆 </h3>
+        <h3 class="header-winner">🏆 {{matchResult.team1Name}} WON! 🏆 </h3>
         <div class="row summary-match">
           <div class="col-3">
-            <p [ngClass]="{'loss': (matchResult.team1NewRating - matchResult.team1OldRating) <= 0, 'win' : (matchResult.team1NewRating - matchResult.team1OldRating) > 0}">
+            <p
+              [ngClass]="{'loss': (matchResult.team1NewRating - matchResult.team1OldRating) <= 0, 'win' : (matchResult.team1NewRating - matchResult.team1OldRating) > 0}">
               <span *ngIf="(matchResult.team1NewRating - matchResult.team1OldRating) > 0">+</span>
               {{matchResult.team1NewRating - matchResult.team1OldRating}}
             </p>
@@ -44,7 +54,8 @@
             <p>{{matchResult.team2Name}}  ({{matchResult.team2NewRating}})</p>
           </div>
           <div class="col-3">
-            <p [ngClass]="{'loss': (matchResult.team2NewRating - matchResult.team2OldRating) <= 0, 'win' : (matchResult.team2NewRating - matchResult.team2OldRating) > 0}">
+            <p
+              [ngClass]="{'loss': (matchResult.team2NewRating - matchResult.team2OldRating) <= 0, 'win' : (matchResult.team2NewRating - matchResult.team2OldRating) > 0}">
               <span *ngIf="(matchResult.team2NewRating - matchResult.team2OldRating) > 0">+</span>
               {{matchResult.team2NewRating - matchResult.team2OldRating}}
             </p>
@@ -58,5 +69,4 @@
       </div>
     </div>
   </div>
-<app-register-team></app-register-team>
 </section>

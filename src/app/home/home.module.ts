@@ -14,7 +14,6 @@ import {RegisterMatchComponent} from './register-winner/register-match.component
 import {NgSelectModule} from '@ng-select/ng-select';
 import { Register1vs1MatchComponent } from './register-winner/register1vs1-match/register1vs1-match.component';
 import { Register2vs2MatchComponent } from './register-winner/register2vs2-match/register2vs2-match.component';
-import { RegisterTeamComponent } from './register-winner/register2vs2-match/components/register-team/register-team.component';
 
 
 @NgModule({
@@ -38,7 +37,7 @@ import { RegisterTeamComponent } from './register-winner/register2vs2-match/comp
     HistoryComponent,
     Register1vs1MatchComponent,
     Register2vs2MatchComponent,
-    RegisterTeamComponent],
+  ],
   providers: [],
 })
 export class HomeModule {

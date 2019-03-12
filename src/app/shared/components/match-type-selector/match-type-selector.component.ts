@@ -9,6 +9,7 @@ import {MatchType} from '../../models/match-type.enum';
 export class MatchTypeSelectorComponent implements OnInit {
 
   @Output() selected = new EventEmitter<MatchType>();
+  _selected: MatchType = MatchType.ONE_VS_ONE;
   matchType = MatchType;
 
   constructor() {
@@ -18,6 +19,7 @@ export class MatchTypeSelectorComponent implements OnInit {
   }
 
   select(type: MatchType) {
-    this.selected.emit(type);
+    this._selected = type;
+    this.selected.emit(this._selected);
   }
 }

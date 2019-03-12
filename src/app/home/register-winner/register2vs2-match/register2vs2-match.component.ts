@@ -4,8 +4,12 @@ import {MatchmakerService} from '../../../shared/services/matchmaker.service';
 import {TeamService} from '../../../shared/services/team.service';
 import {TeamModel} from '../../../shared/models/team.model';
 import {TeamHistoryModel} from '../../../shared/models/team-history.model';
-import {switchMap} from 'rxjs/operators';
+import {filter, switchMap} from 'rxjs/operators';
 import {TeamMatchModel} from '../../../shared/models/team-match.model';
+import {UserModel} from '../../../shared/models/user.model';
+import {UserService} from '../../../shared/services/user.service';
+import {uniqueNamesGenerator} from 'unique-names-generator';
+import {combineLatest, Observable} from 'rxjs';
 
 @Component({
   selector: 'app-register2vs2-match',
@@ -13,14 +17,18 @@ import {TeamMatchModel} from '../../../shared/models/team-match.model';
   styleUrls: ['./register2vs2-match.component.scss']
 })
 export class Register2vs2MatchComponent implements OnInit {
+  users: UserModel[];
+  players: UserModel[] = new Array(4);
   teams: TeamModel[];
-  team1: TeamModel;
-  team2: TeamModel;
   matchResult: TeamHistoryModel;
   isLoading: boolean;
   hasRegistered: boolean;
 
-  constructor(private teamService: TeamService, private auth: AuthenticationService, private matchmaker: MatchmakerService) {
+  constructor(private userService: UserService,
+              private teamService: TeamService,
+              private auth: AuthenticationService,
+              private matchmaker: MatchmakerService,
+  ) {
   }
 
   private static createMatch(team1: TeamModel, team2: TeamModel): TeamMatchModel {
@@ -33,35 +41,56 @@ export class Register2vs2MatchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadTeams();
+    this.loadUsers();
   }
 
-  private loadTeams() {
-    this.auth.isLoggedIn().pipe(
-      switchMap(() => this.teamService.getTeamsByName())
-    ).subscribe(result => {
-      this.teams = result;
-    }, err => {
-      console.log(err);
+  private loadUsers() {
+    this.userService.getUsersByName().subscribe(result => {
+      this.users = result;
+    }, error => {
+      console.log(error);
     });
   }
 
+  private allPlayersHaveValue() {
+    return this.players.length === 4 && this.players.every(p => p !== null && typeof p !== 'undefined');
+  }
+
+  playersWithout(player: UserModel): UserModel[] {
+    return this.players.filter(p => p !== player);
+  }
+
   registerWinner() {
-    if (!(this.team1 && this.team2)) {
+    if (this.allPlayersHaveValue()) {
       return;
-    } else if (!confirm('Did ' + this.team1.name + ' win?')) {
+    } else if (!confirm('Did ' + this.players[0].name + ' & ' + this.players[1].name + ' win?')) {
       console.log('Cancel');
       return;
     }
     this.isLoading = true;
-    const matchModel: TeamMatchModel = Register2vs2MatchComponent.createMatch(this.team1, this.team2);
-    this.matchmaker.registerWinnerTeam(true, matchModel).then(result => {
+
+    const team1$ = this.getOrRegisterTeam(this.players[0], this.players[1]);
+    const team2$ = this.getOrRegisterTeam(this.players[0], this.players[1]);
+    combineLatest(team1$, team2$).pipe(
+      switchMap(([team1, team2]) => {
+        const match = Register2vs2MatchComponent.createMatch(team1, team2);
+        return this.matchmaker.registerWinnerTeam(true, match);
+      })
+    ).subscribe(result => {
       this.isLoading = false;
       if (result) {
         this.matchResult = result;
         this.hasRegistered = true;
       }
     });
+  }
+
+  getOrRegisterTeam(player1: UserModel, player2: UserModel): Observable<TeamModel> {
+    return this.teamService.teamExists(player1.uid, player2.uid).pipe(
+      filter(exists => !exists),
+      switchMap(() =>
+        this.teamService.register(player1.uid, player1.name, player2.uid, player2.name, uniqueNamesGenerator()))
+    );
   }
 
   registerNewMatch() {

@@ -3,7 +3,7 @@ import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firest
 import {TeamModel} from '../models/team.model';
 import {combineLatest, Observable} from 'rxjs';
 import {fromPromise} from 'rxjs/internal-compatibility';
-import {map, switchMap} from 'rxjs/operators';
+import {map, switchMap, take} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +34,7 @@ export class TeamService {
     );
   }
 
-  register(player1Uid: string, player1Name: string, player2Uid: string, player2Name: string, name: string): Observable<boolean> {
+  register(player1Uid: string, player1Name: string, player2Uid: string, player2Name: string, name: string): Observable<TeamModel> {
     const team = {
       isPlaying: false,
       player1Uid: player1Uid,
@@ -45,8 +45,12 @@ export class TeamService {
       rating: 1500,
     } as TeamModel;
     return fromPromise(this.afs.collection<TeamModel>('teams').add(team)).pipe(
-      switchMap(docRef => this.afs.collection<TeamModel>('teams').doc(docRef.id).update({uid: docRef.id})),
-      map(() => true),
+      switchMap(docRef =>
+        fromPromise(this.afs.collection<TeamModel>('teams').doc(docRef.id).update({uid: docRef.id})).pipe(
+          map(() => docRef.id),
+        )
+      ),
+      switchMap(id => this.afs.collection<TeamModel>('teams').doc<TeamModel>(id).valueChanges().pipe(take(1))),
     );
   }
 

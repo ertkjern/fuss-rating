@@ -1,21 +1,35 @@
 @import "../../../../styles/variables";
 @import "../../../../styles/mixins";
 
-.register-match{
+.register-match {
   margin-top: 35px;
   text-align: center;
 
-  .select-label{
+  app-player-selector {
+    width: 100%;
+  }
+
+  .selector-row {
+    > div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .vs {
+      display: block;
+      text-align: center;
+      font-size: 28px
+    }
+  }
+
+  .select-label {
     text-align: left;
     font-size: 18px;
   }
-  .vs{
-    display: block;
-    text-align: center;
-    margin-top: 24px;
-    font-size: 28px
-  }
-  .select-box{
+
+  .select-box {
     margin: auto;
     width: 100%;
     font-size: 18px;
@@ -27,7 +41,7 @@
     display: block;
   }
 
-  .create-game{
+  .create-game {
     @include no-button-styling();
     @include standard-button($tangarine, $tangarine-transparent, white);
     width: 300px;
@@ -36,19 +50,19 @@
     margin-top: 35px;
   }
 
-  .loss{
+  .loss {
     color: red;
   }
 
-  .win{
+  .win {
     color: green;
   }
 
-  .header-winner{
+  .header-winner {
     margin-top: 35px;
   }
 
-  .summary-match{
+  .summary-match {
     font-size: 22px;
     margin-top: 35px;
   }

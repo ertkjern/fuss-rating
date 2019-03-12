@@ -16,8 +16,6 @@ export class Register1vs1MatchComponent implements OnInit {
   player1: UserModel;
   player2: UserModel;
   matchResult: HistoryModel;
-  player1Id: string;
-  player2Id: string;
   isLoading: boolean;
   hasRegisterd: boolean;
 
@@ -25,8 +23,6 @@ export class Register1vs1MatchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.player1Id = '';
-    this.player2Id = '';
     this.auth.isLoggedIn().subscribe(result => {
       this.loadUsers(result.uid);
     }, error => {
@@ -43,11 +39,9 @@ export class Register1vs1MatchComponent implements OnInit {
   }
 
   registerWinner() {
-    if (this.player2Id && this.player1Id) {
-      this.player1 = this.users.filter(u => u.uid === this.player1Id)[0];
+    if (this.player1 && this.player2) {
       if (confirm('Did ' + this.player1.name + ' win?')) {
         this.isLoading = true;
-        this.player2 = this.users.filter(u => u.uid === this.player2Id)[0];
         const matchModel: MatchModel = this.createMatch(this.player1, this.player2);
         this.matchmaker.registerWinner(true, matchModel).then(result => {
           this.isLoading = false;

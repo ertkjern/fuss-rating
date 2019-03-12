@@ -89,10 +89,8 @@ export class Register2vs2MatchComponent implements OnInit {
     return this.teamService.teamExists(player1.uid, player2.uid).pipe(
       switchMap(exists => {
         if (exists) {
-          console.log('fetched', player1.name, player2.name);
           return this.teamService.getTeam(player1.uid, player2.uid);
         } else {
-          console.log('created', player1.name, player2.name);
           return this.teamService.register(player1.uid, player1.name, player2.uid, player2.name, uniqueNamesGenerator());
         }
       }),

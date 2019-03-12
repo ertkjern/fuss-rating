@@ -61,7 +61,7 @@ export class Register2vs2MatchComponent implements OnInit {
   }
 
   registerWinner() {
-    if (this.allPlayersHaveValue()) {
+    if (!this.allPlayersHaveValue()) {
       return;
     } else if (!confirm('Did ' + this.players[0].name + ' & ' + this.players[1].name + ' win?')) {
       console.log('Cancel');
@@ -70,7 +70,7 @@ export class Register2vs2MatchComponent implements OnInit {
     this.isLoading = true;
 
     const team1$ = this.getOrRegisterTeam(this.players[0], this.players[1]);
-    const team2$ = this.getOrRegisterTeam(this.players[0], this.players[1]);
+    const team2$ = this.getOrRegisterTeam(this.players[2], this.players[3]);
     combineLatest(team1$, team2$).pipe(
       switchMap(([team1, team2]) => {
         const match = Register2vs2MatchComponent.createMatch(team1, team2);
@@ -87,9 +87,15 @@ export class Register2vs2MatchComponent implements OnInit {
 
   getOrRegisterTeam(player1: UserModel, player2: UserModel): Observable<TeamModel> {
     return this.teamService.teamExists(player1.uid, player2.uid).pipe(
-      filter(exists => !exists),
-      switchMap(() =>
-        this.teamService.register(player1.uid, player1.name, player2.uid, player2.name, uniqueNamesGenerator()))
+      switchMap(exists => {
+        if (exists) {
+          console.log('fetched', player1.name, player2.name);
+          return this.teamService.getTeam(player1.uid, player2.uid);
+        } else {
+          console.log('created', player1.name, player2.name);
+          return this.teamService.register(player1.uid, player1.name, player2.uid, player2.name, uniqueNamesGenerator());
+        }
+      }),
     );
   }
 

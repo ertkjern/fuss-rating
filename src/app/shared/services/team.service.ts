@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
 import {TeamModel} from '../models/team.model';
-import {combineLatest, Observable} from 'rxjs';
+import {combineLatest, Observable, zip} from 'rxjs';
 import {fromPromise} from 'rxjs/internal-compatibility';
 import {map, switchMap, take} from 'rxjs/operators';
 
@@ -27,6 +27,19 @@ export class TeamService {
       return ref.orderBy('rating', 'desc');
     });
     return this.teamCollection.valueChanges();
+  }
+
+
+  getTeam(player1Uid: string, player2Uid: string): Observable<TeamModel> {
+    const o1$ = this.afs.collection<TeamModel>('teams', ref =>
+      ref.where('player1Uid', '==', player1Uid).where('player2Uid', '==', player2Uid));
+
+    const o2$ = this.afs.collection<TeamModel>('teams', ref =>
+      ref.where('player2Uid', '==', player1Uid).where('player1Uid', '==', player2Uid));
+
+    return zip(o1$.valueChanges(), o2$.valueChanges()).pipe(
+      map(([a1, a2]) => a1.concat(a2)[0])
+    );
   }
 
   teamExists(player1Uid: string, player2Uid: string): Observable<boolean> {

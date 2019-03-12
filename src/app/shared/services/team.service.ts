@@ -22,6 +22,13 @@ export class TeamService {
     return this.teamCollection.valueChanges();
   }
 
+  getTeamsByScore(): Observable<TeamModel[]> {
+    this.teamCollection = this.afs.collection<TeamModel>('teams', ref => {
+      return ref.orderBy('rating', 'desc');
+    });
+    return this.teamCollection.valueChanges();
+  }
+
   teamExists(player1Uid: string, player2Uid: string): Observable<boolean> {
     const o1$ = this.afs.collection<TeamModel>('teams', ref =>
       ref.where('player1Uid', '==', player1Uid).where('player2Uid', '==', player2Uid));

@@ -28,8 +28,10 @@ const setup1v1Match = (player1Elo, player2Elo): MatchModel => {
 
 const setup2v2Match = (team1Rating, team2Rating): TeamMatchModel => {
   const match = new TeamMatchModel();
-  match.team1 = {rating: team1Rating};
-  match.team2 = {rating: team2Rating};
+  match.team1 = new TeamModel();
+  match.team1.rating = team1Rating;
+  match.team2 = new TeamModel();
+  match.team2.rating = team2Rating;
   return match;
 };
 

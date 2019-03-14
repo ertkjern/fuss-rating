@@ -1,21 +1,5 @@
-<div class="score">
-  <h2>Leaderboard</h2>
-  <div class="score-content">
-    <div class="container">
-      <div *ngFor="let user of users; let i = index;">
-        <div class="row user">
-          <div class="col-1">
-            {{i+1}}.
-          </div>
-          <div class="col-6">
-            {{user.username}}
-          </div>
-          <div class="col-4">
-            {{user.rating}}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</div>
+<section class="container" [ngSwitch]="display">
+  <app-match-type-selector (selected)="select($event)"></app-match-type-selector>
+  <app-score1vs1 *ngSwitchDefault></app-score1vs1>
+  <app-score2vs2 *ngSwitchCase="matchTypes.TWO_VS_TWO"></app-score2vs2>
+</section>

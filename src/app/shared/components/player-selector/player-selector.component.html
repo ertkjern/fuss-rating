@@ -1,0 +1,5 @@
+<label class="select-label" [ngClass]="{'cdk-visually-hidden': hideLabel}" for="player">{{label}}</label>
+<ng-select id="player" [(ngModel)]="player">
+  <ng-option>Velg...</ng-option>
+  <ng-option *ngFor="let player of players" [value]="player" [disabled]="isDisabled(player)" >{{player.name}} ({{player.username}})</ng-option>
+</ng-select>

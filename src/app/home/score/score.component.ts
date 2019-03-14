@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from '../../shared/services/user.service';
 import {UserModel} from '../../shared/models/user.model';
+import {MatchType} from '../../shared/models/match-type.enum';
 
 @Component({
   selector: 'app-score',
@@ -8,20 +9,17 @@ import {UserModel} from '../../shared/models/user.model';
   templateUrl: 'score.component.html'
 })
 export class ScoreComponent implements OnInit {
-  users: UserModel[];
+  matchTypes = MatchType;
 
-  constructor(private userService: UserService) {
+  display: string;
+
+  constructor() {
   }
 
   ngOnInit() {
-    this.loadScores();
   }
 
-  private loadScores() {
-    this.userService.getUsersByScore().subscribe(result => {
-      this.users = result;
-    }, error => {
-      console.log('Something went wrong: ' + error);
-    });
+  select(type) {
+    this.display = type;
   }
 }

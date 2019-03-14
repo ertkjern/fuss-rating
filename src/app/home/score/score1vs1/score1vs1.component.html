@@ -1,0 +1,21 @@
+<div class="score">
+  <h2>1 vs 1 Leaderboard</h2>
+  <div class="score-content">
+    <div class="container">
+      <div *ngFor="let user of users; let i = index;">
+        <div class="row user">
+          <div class="col-1">
+            {{i+1}}.
+          </div>
+          <div class="col-6">
+            {{user.username}}
+          </div>
+          <div class="col-4">
+            {{user.rating}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

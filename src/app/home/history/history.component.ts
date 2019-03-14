@@ -49,7 +49,7 @@ export class HistoryComponent implements OnInit {
   }
 
   loadHistory() {
-    combineLatest(this.historyService.getHistory(10), this.historyService.getTeamHistory(10)).pipe(
+    combineLatest(this.historyService.getHistory(50), this.historyService.getTeamHistory(50)).pipe(
       map(([userHistory, teamHistory]) => {
         return userHistory.map(h => HistoryComponent.convertUserHistory(h))
           .concat(teamHistory.map(h => HistoryComponent.convertTeamHistory(h)));

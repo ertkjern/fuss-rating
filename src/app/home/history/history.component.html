@@ -1,7 +1,7 @@
 <div class="container history">
   <div class="row">
     <div class="col-12 center">
-      <h2>Recent matches</h2>
+      <h2>Last 50 matches</h2>
     </div>
   </div>
 
@@ -16,13 +16,13 @@
       </p>
     </div>
     <div class="col-3 center-text">
-      <p>{{h.winnerName}} ({{h.winnerNewRating}})</p>
+      <p>{{h.winnerName}} <br/> ({{h.winnerNewRating}})</p>
     </div>
     <div class="col-1 center-text">
       <p>VS</p>
     </div>
     <div class="col-3 center-text">
-      <p>{{h.loserOldRating}}  ({{h.loserNewRating}})</p>
+      <p>{{h.loserName}} <br/> ({{h.loserNewRating}})</p>
     </div>
     <div class="col-2 center-text">
       <p [ngClass]="{'loss': (h.loserNewRating - h.loserOldRating) <= 0, 'win' : (h.loserNewRating - h.loserOldRating) > 0}">

@@ -1,0 +1,72 @@
+<section class="container">
+  <div class="register-match row">
+    <div class="col-md-12">
+      <h2 *ngIf="!isLoading && !hasRegistered">Register a 2 vs 2 match</h2>
+      <div *ngIf="isLoading"><span class="fa fa-cog fa-spin fa-4x"></span></div>
+      <div *ngIf="!isLoading && !hasRegistered">
+        <div class="row">
+          <h3 aria-hidden="true" class="col-5">Winners</h3>
+          <div class="col-2"></div>
+          <h3 aria-hidden="true" class="col-5">Losers</h3>
+        </div>
+        <div class="row selector-row">
+          <div class="col-5">
+            <h3 class="cdk-visually-hidden">Winners</h3>
+            <app-player-selector [(player)]="players[0]" [players]="users" [disabled]="playersWithout(players[0])"
+                                 label="Player 1">
+            </app-player-selector>
+            <app-player-selector [(player)]="players[1]" [players]="users" [disabled]="playersWithout(players[1])"
+                                 label="Player 2">
+            </app-player-selector>
+          </div>
+          <div class="col-2"><span class="vs">won against</span></div>
+          <div class="col-5">
+            <h3 class="cdk-visually-hidden">Losers</h3>
+            <app-player-selector [(player)]="players[2]" [players]="users" [disabled]="playersWithout(players[2])"
+                                 label="Player 3">
+            </app-player-selector>
+            <app-player-selector [(player)]="players[3]" [players]="users" [disabled]="playersWithout(players[3])"
+                                 label="Player 4">
+            </app-player-selector>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <button (click)="registerWinner()" class="create-game">REGISTER WINNER</button>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!isLoading && hasRegistered">
+        <h3 class="header-winner">🏆 {{matchResult.team1Name}} WON! 🏆 </h3>
+        <div class="row summary-match">
+          <div class="col-3">
+            <p
+              [ngClass]="{'loss': (matchResult.team1NewRating - matchResult.team1OldRating) <= 0, 'win' : (matchResult.team1NewRating - matchResult.team1OldRating) > 0}">
+              <span *ngIf="(matchResult.team1NewRating - matchResult.team1OldRating) > 0">+</span>
+              {{matchResult.team1NewRating - matchResult.team1OldRating}}
+            </p>
+          </div>
+          <div class="col-3">
+            <p>{{matchResult.team1Name}} ({{matchResult.team1NewRating}})</p>
+          </div>
+          <div class="col-3">
+            <p>{{matchResult.team2Name}}  ({{matchResult.team2NewRating}})</p>
+          </div>
+          <div class="col-3">
+            <p
+              [ngClass]="{'loss': (matchResult.team2NewRating - matchResult.team2OldRating) <= 0, 'win' : (matchResult.team2NewRating - matchResult.team2OldRating) > 0}">
+              <span *ngIf="(matchResult.team2NewRating - matchResult.team2OldRating) > 0">+</span>
+              {{matchResult.team2NewRating - matchResult.team2OldRating}}
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <button (click)="registerNewMatch()" class="create-game">REGISTER NEW MATCH</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

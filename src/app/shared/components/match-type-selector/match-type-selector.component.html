@@ -1,0 +1,9 @@
+<div class="match-types">
+  <button class="type" [ngClass]="{selected: _selected === matchType.ONE_VS_ONE}"
+          (click)="select(matchType.ONE_VS_ONE)">1 vs 1
+  </button>
+  <div class="seperator"></div>
+  <button class="type" [ngClass]="{selected: _selected === matchType.TWO_VS_TWO}"
+          (click)="select(matchType.TWO_VS_TWO)">2 vs 2
+  </button>
+</div>

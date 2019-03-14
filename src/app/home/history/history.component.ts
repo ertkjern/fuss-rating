@@ -49,14 +49,14 @@ export class HistoryComponent implements OnInit {
   }
 
   loadHistory() {
-    combineLatest(this.historyService.getHistory(50), this.historyService.getTeamHistory(50)).pipe(
+    combineLatest(this.historyService.getHistory(20), this.historyService.getTeamHistory(20)).pipe(
       map(([userHistory, teamHistory]) => {
         return userHistory.map(h => HistoryComponent.convertUserHistory(h))
           .concat(teamHistory.map(h => HistoryComponent.convertTeamHistory(h)));
       }),
     ).subscribe(history => {
       history.sort((a, b) => b.created - a.created);
-      this.history = history.splice(0, 10);
+      this.history = history.splice(0, 20);
     }, error => {
       console.log(error);
     });

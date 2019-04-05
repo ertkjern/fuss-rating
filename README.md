@@ -4,8 +4,6 @@ A super simple fuss rating system based on the Chess [ELO-rating](https://no.wik
 
 The following web project is an *Angular 7.x* project. The styling is built on [Bootstrap 4.x Beta](https://getbootstrap.com/) as CSS framework. Styling is otherwise implemented using [SCSS](http://sass-lang.com/guide). 
 
-The app can be found and used at [https://ertkjern.com/fuss](https://ertkjern.com/fuss).
-
 After you have played a new match, you can register a winner and a loser. Then the system will calculate 
 a rating based on the rating between the two players. 
 

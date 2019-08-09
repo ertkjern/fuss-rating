@@ -4,6 +4,9 @@ import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firest
 import {MatchModel} from '../models/match.model';
 import {map} from 'rxjs/operators';
 import {HistoryModel} from '../models/history.model';
+import {TeamMatchModel} from '../models/team-match.model';
+import {TeamHistoryModel} from '../models/team-history.model';
+import {TeamModel} from '../models/team.model';
 
 @Injectable()
 export class MatchmakerService {
@@ -21,7 +24,7 @@ export class MatchmakerService {
         lastUpdated: new Date(),
         created: new Date().getTime()
       };
-      this.afs.collection<MatchModel>('matches').add(match).then( () => {
+      this.afs.collection<MatchModel>('matches').add(match).then(() => {
         this.setIsPlaying(player1, true).then(() => {
           this.setIsPlaying(player2, true).then(() => {
             resolve(true);
@@ -43,16 +46,16 @@ export class MatchmakerService {
       return ref.orderBy('created', 'asc');
     });
     return this.matchCollection.snapshotChanges().pipe(
-       map(actions => actions.map(a => {
+      map(actions => actions.map(a => {
         const data = a.payload.doc.data() as MatchModel;
         const id = a.payload.doc.id;
-        return {id, ...data };
+        return {id, ...data};
       }))
     );
   }
 
   deleteMatch(match: MatchModel): Promise<boolean> {
-    return new Promise(resolve =>  {
+    return new Promise(resolve => {
       this.setIsPlaying(match.player1, false).then(() => {
         this.setIsPlaying(match.player2, false).then(() => {
           this.afs.collection<MatchModel>('matches').doc(match.id).delete().then(() => {
@@ -64,10 +67,10 @@ export class MatchmakerService {
   }
 
   registerWinner(player1Won: boolean, match: MatchModel): Promise<HistoryModel> {
-    return new Promise<HistoryModel>( resolve => {
+    return new Promise<HistoryModel>(resolve => {
       const player1OldRating = match.player1.rating;
       const player2OldRating = match.player2.rating;
-      const updatedMatch = this.calculateELORating(player1Won, match);
+      const updatedMatch = this.calculate1v1ELORating(player1Won, match);
       if (updatedMatch) {
         this.updatePlayerRating(updatedMatch.player1).then(() => {
           this.updatePlayerRating(updatedMatch.player2).then(() => {
@@ -82,9 +85,35 @@ export class MatchmakerService {
     });
   }
 
+  // TODO fix
+  registerWinnerTeam(team1Won: boolean, match: TeamMatchModel): Promise<TeamHistoryModel> {
+    return new Promise<TeamHistoryModel>(resolve => {
+      const team1OldRating = match.team1.rating;
+      const team2OldRating = match.team2.rating;
+      const updatedMatch = this.calculate2v2ELORating(team1Won, match);
+      if (updatedMatch) {
+        this.updateTeamRating(updatedMatch.team1).then(() => {
+          this.updateTeamRating(updatedMatch.team2).then(() => {
+            this.updateTeamMatch(match, team1OldRating, team2OldRating, team1Won)
+              .then(result => {
+                resolve(result);
+              });
+          });
+        });
+      } else {
+        throw new Error('ELO-rating update failed');
+      }
+    });
+  }
+
   private updatePlayerRating(player: UserModel): Promise<void> {
     player.isPlaying = false;
     return this.afs.collection<UserModel>('users').doc(player.uid).update(player);
+  }
+
+  private updateTeamRating(team: TeamModel): Promise<void> {
+    team.isPlaying = false;
+    return this.afs.collection<UserModel>('teams').doc(team.uid).update(team);
   }
 
   private updateMatch(match: MatchModel, player1Oldrating: number, player2OldRating: number, player1Won): Promise<HistoryModel> {
@@ -109,19 +138,71 @@ export class MatchmakerService {
         resolve(normalizedMatch);
       });
     });
-
   }
 
-  private calculateELORating(player1Won: boolean, match: MatchModel): MatchModel {
-    let winnerRating = 0;
-    let loserRating = 0;
-    if (player1Won) {
-      winnerRating = match.player1.rating;
-      loserRating = match.player2.rating;
-    } else {
-      winnerRating = match.player2.rating;
-      loserRating = match.player1.rating;
+  private updateTeamMatch(match: TeamMatchModel,
+                          team1OldRating: number,
+                          team2OldRating: number,
+                          team1Won: boolean): Promise<TeamHistoryModel> {
+    return new Promise<TeamHistoryModel>(resolve => {
+      match.lastUpdated = new Date();
+      const normalizedMatch: TeamHistoryModel = {
+        created: match.created,
+        lastUpdated: new Date(),
+        team1Uid: match.team1.uid,
+        team1Name: match.team1.name,
+        team1Player1Name: match.team1.player1Name,
+        team1Player2Name: match.team1.player2Name,
+        team1OldRating: team1OldRating,
+        team1NewRating: match.team1.rating,
+        team2Uid: match.team2.uid,
+        team2Name: match.team2.name,
+        team2Player1Name: match.team2.player1Name,
+        team2Player2Name: match.team2.player2Name,
+        team2OldRating: team2OldRating,
+        team2NewRating: match.team2.rating,
+        team1Won: team1Won
+      };
+      this.afs.collection<TeamHistoryModel>('team-history').add(normalizedMatch).then(() => {
+        resolve(normalizedMatch);
+      });
+    });
+  }
+
+  private calculate1v1ELORating(player1Won: boolean, match: MatchModel): MatchModel {
+    if (match.player1.rating <= 0 || match.player2.rating <= 0) {
+      return null;
     }
+    if (player1Won) {
+      const newRatings = this.calculateELORating(match.player1.rating, match.player2.rating);
+      match.player1.rating = newRatings[0];
+      match.player2.rating = newRatings[1];
+    } else {
+      const newRatings = this.calculateELORating(match.player2.rating, match.player1.rating);
+      match.player1.rating = newRatings[1];
+      match.player2.rating = newRatings[0];
+    }
+    return match;
+  }
+
+
+  private calculate2v2ELORating(team1Won: boolean, match: TeamMatchModel): TeamMatchModel {
+    if (match.team1.rating <= 0 || match.team2.rating <= 0) {
+      return null;
+    }
+    if (team1Won) {
+      const newRatings = this.calculateELORating(match.team1.rating, match.team2.rating);
+      match.team1.rating = newRatings[0];
+      match.team2.rating = newRatings[1];
+    } else {
+      const newRatings = this.calculateELORating(match.team2.rating, match.team1.rating);
+      match.team1.rating = newRatings[1];
+      match.team2.rating = newRatings[0];
+    }
+    return match;
+  }
+
+  private calculateELORating(winnerRating: number, loserRating: number): [number, number] {
     if (winnerRating > 0 && loserRating > 0) {
       const rw = Math.pow(10, (winnerRating / 400));
       const rl = Math.pow(10, (loserRating / 400));
@@ -132,16 +213,8 @@ export class MatchmakerService {
       const eloWinner = winnerRating + 20 * (1 - e1);
       const eloloser = loserRating + 20 * (0 - e2);
 
-      if (player1Won) {
-        match.player1.rating = Math.round(eloWinner);
-        match.player2.rating = Math.round(eloloser);
-      } else {
-        match.player1.rating = Math.round(eloloser);
-        match.player2.rating = Math.round(eloWinner);
-      }
-      return match;
+      return [Math.round(eloWinner), Math.round(eloloser)];
     }
-    return null;
-
+    return [0, 0];
   }
 }

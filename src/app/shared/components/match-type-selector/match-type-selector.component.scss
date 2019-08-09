@@ -1,0 +1,22 @@
+@import "../../../../styles/variables";
+
+.match-types {
+  margin-top: 35px;
+  display: flex;
+}
+
+.type {
+  background: $tangarine-transparent;
+  border: 0;
+  border-radius: 4px;
+  color: #fff;
+  flex-grow: 1;
+
+  &.selected {
+    background: $tangarine;
+  }
+}
+
+.seperator {
+  width: 25%;
+}

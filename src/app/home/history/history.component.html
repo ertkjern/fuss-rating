@@ -1,7 +1,7 @@
 <div class="container history">
   <div class="row">
     <div class="col-12 center">
-      <h2>Recent matches</h2>
+      <h2>Last 20 matches</h2>
     </div>
   </div>
 
@@ -10,26 +10,25 @@
       {{h.created |date: 'dd/MM/yyyy hh:mm' }}
     </div>
     <div class="col-2 center-text">
-      <p [ngClass]="{'loss': (h.player1NewRating - h.player1OldRating) <= 0, 'win' : (h.player1NewRating - h.player1OldRating) > 0}">
-        <span *ngIf="(h.player1NewRating - h.player1OldRating) > 0">+</span>
-        {{h.player1NewRating - h.player1OldRating}}
+      <p [ngClass]="{'loss': (h.winnerNewRating - h.winnerOldRating) <= 0, 'win' : (h.winnerNewRating - h.winnerOldRating) > 0}">
+        <span *ngIf="(h.winnerNewRating - h.winnerOldRating) > 0">+</span>
+        {{h.winnerNewRating - h.winnerOldRating}}
       </p>
     </div>
     <div class="col-3 center-text">
-      <p>{{h.player1Username}} ({{h.player1NewRating}})</p>
+      <p>{{h.winnerName}} <br/> ({{h.winnerNewRating}})</p>
     </div>
     <div class="col-1 center-text">
       <p>VS</p>
     </div>
     <div class="col-3 center-text">
-      <p>{{h.player2Username}}  ({{h.player2NewRating}})</p>
+      <p>{{h.loserName}} <br/> ({{h.loserNewRating}})</p>
     </div>
     <div class="col-2 center-text">
-      <p [ngClass]="{'loss': (h.player2NewRating - h.player2OldRating) <= 0, 'win' : (h.player2NewRating - h.player2OldRating) > 0}">
-        <span *ngIf="(h.player2NewRating - h.player2OldRating) > 0">+</span>
-        {{h.player2NewRating - h.player2OldRating}}
+      <p [ngClass]="{'loss': (h.loserNewRating - h.loserOldRating) <= 0, 'win' : (h.loserNewRating - h.loserOldRating) > 0}">
+        <span *ngIf="(h.loserNewRating - h.loserOldRating) > 0">+</span>
+        {{h.loserNewRating - h.loserOldRating}}
       </p>
     </div>
-
   </div>
 </div>

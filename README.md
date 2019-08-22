@@ -1,4 +1,4 @@
-# Evry Fuss Rating System
+# Evry Foos Rating System
 
 A super simple fuss rating system based on the Chess [ELO-rating](https://no.wikipedia.org/wiki/Elo-rating).
 
